@@ -14,12 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/git/pull', function () {
-    $command = "--git-dir=/var/www/html/HomeProject/.git pull > /var/www/html/HomeProject/gitrecord.txt";
-    $ret = system($command);
-    echo $ret;
-    return "\nGIT OKa";
-});
 
 Route::get('/test', function() {
     return view('test');

@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
+use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The policy mappings for the application.
+     * アプリケーションのポリシーのマップ
      *
      * @var array
      */
@@ -17,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register any authentication / authorization services.
+     * 全認証／認可サービスの登録
      *
      * @return void
      */
@@ -25,6 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Passport::routes();
     }
 }

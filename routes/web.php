@@ -18,7 +18,7 @@ Route::get('/git/pull', function () {
     $command = "--git-dir=/var/www/html/HomeProject/.git pull";
     $ret = system($command);
     echo $ret;
-    return "\nGIT OK";
+    return "\nGIT OKa";
 });
 
 Route::get('/test', function() {

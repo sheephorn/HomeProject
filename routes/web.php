@@ -14,6 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/git/pull', function () {
+    $command = "--git-dir=/var/www/html/HomeProject/.git pull";
+    system($command);
+    return "GIT OK";
+});
 
 Route::get('/test', function() {
     return view('test');

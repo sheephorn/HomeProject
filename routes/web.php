@@ -11,15 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Auth::routes();
+
+// Route::('login', '\App\Http\Controllers\LoginController');
+
+$prefix = 'login';
+Route::group(['prefix' => $prefix], function(){
+    // Loginページの表示
+    Route::get('/', 'LoginController@getLoginPage')->route('login');
+    // Login機能
+    Route::post('/', 'LoginController@login');
 });
 
-Route::get('/test', function() {
-    echo 'hei';
-    return view('test');
+Route::group(['middleware' => 'login'], function(){
+    //
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');

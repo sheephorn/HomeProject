@@ -18,7 +18,7 @@
 $prefix = 'login';
 Route::group(['prefix' => $prefix], function(){
     // Loginページの表示
-    Route::get('/', 'LoginController@getLoginPage')->route('login');
+    Route::get('/', 'LoginController@getLoginPage');
     // Login機能
     Route::post('/', 'LoginController@login');
 });

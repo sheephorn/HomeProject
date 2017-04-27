@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content>
+  <const>
+    <methods>
+      <get>get</get>
+      <post>post</post>
+      <get_post>get_post</get_post>
+    </methods>
+  </const>
+  <function id="LOGIN_VIEW">
+    <controller>LoginController</controller>
+    <method>get</method>
+    <path>logins</path>
+    <controllerMethod>getLoginPage</controllerMethod>
+    <middleware />
+  </function>
+  <function id="GET_LOGIN">
+    <controller>LoginController</controller>
+    <method>post</method>
+    <path>login</path>
+    <controllerMethod>login</controllerMethod>
+    <middleware />
+  </function>
+</content>

@@ -11,18 +11,27 @@
 |
 */
 
-// Auth::routes();
+$functions = app('RouteCreater')->getFunctions();
+$methods = app('RouteCreater')->getMethods();
 
-// Route::('login', '\App\Http\Controllers\LoginController');
-
-$prefix = 'login';
-Route::group(['prefix' => $prefix], function(){
-    // Loginページの表示
-    Route::get('/', 'LoginController@getLoginPage');
-    // Login機能
-    Route::post('/', 'LoginController@login');
-});
-
-Route::group(['middleware' => 'login'], function(){
-    //
-});
+foreach ($functions as $function) {
+    if ($function['method'] === $methods['get']) {
+        if ($function['middleware'] !== '') {
+            Route::get($function['path'], $function['controller'].'@'.$function['controllerMethod'])->name($function['@attributes']['id'])->middleware($function['middleware']);
+        } else {
+            Route::get($function['path'], $function['controller'].'@'.$function['controllerMethod'])->name($function['@attributes']['id']);
+        }
+    } elseif ($function['method'] === $methods['post']) {
+        if ($function['middleware'] !== '') {
+            Route::post($function['path'], $function['controller'].'@'.$function['controllerMethod'])->name($function['@attributes']['id'])->middleware($function['middleware']);
+        } else {
+            Route::post($function['path'], $function['controller'].'@'.$function['controllerMethod'])->name($function['@attributes']['id']);
+        }
+    }elseif ($function['method'] === $methods['get_post']) {
+        if ($function['middleware'] !== '') {
+            Route::match(['get', 'post'], $function['path'], $function['controller'].'@'.$function['controllerMethod'])->name($function['@attributes']['id'])->middleware($function['middleware']);
+        } else {
+            Route::match(['get', 'post'], $function['path'], $function['controller'].'@'.$function['controllerMethod'])->name($function['@attributes']['id']);
+        }
+    }
+}

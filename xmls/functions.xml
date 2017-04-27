@@ -8,13 +8,15 @@
     </methods>
   </const>
   <function id="LOGIN_VIEW">
+    <comment>ログイン画面の表示</comment>
     <controller>LoginController</controller>
     <method>get</method>
-    <path>logins</path>
+    <path>login</path>
     <controllerMethod>getLoginPage</controllerMethod>
     <middleware />
   </function>
   <function id="GET_LOGIN">
+      <comment>ログイン制御機能</comment>
     <controller>LoginController</controller>
     <method>post</method>
     <path>login</path>

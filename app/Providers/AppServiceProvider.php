@@ -26,5 +26,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('RouteCreater', function ($app) {
             return new \App\Helpers\RouteCreater;
         });
+        $this->app->singleton('CodeCreater', function ($app) {
+            return new \App\Helpers\CodeCreater;
+        });
+        $this->app->singleton('MessageCreater', function ($app) {
+            return new \App\Helpers\MessageCreater;
+        });
     }
 }

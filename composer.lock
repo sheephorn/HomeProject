@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4e0071cc24d085c2f4cf1f5a8477cc06",
-    "content-hash": "6f1aeab50d7079f20f62a9c87f9ed22e",
+    "hash": "d2d1dce2c2be426ca2c7933e98ce24de",
+    "content-hash": "a2b3aa9ac11d81ce7bd4ac756071e6d7",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -720,6 +720,60 @@
             "time": "2016-12-21 13:51:02"
         },
         {
+            "name": "laravelcollective/html",
+            "version": "v5.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/html.git",
+                "reference": "2f7f2e127c6fed47f269ea29ab5efeb8f65e9d35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/2f7f2e127c6fed47f269ea29ab5efeb8f65e9d35",
+                "reference": "2f7f2e127c6fed47f269ea29ab5efeb8f65e9d35",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "5.3.*",
+                "illuminate/routing": "5.3.*",
+                "illuminate/session": "5.3.*",
+                "illuminate/support": "5.3.*",
+                "illuminate/view": "5.3.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "illuminate/database": "5.3.*",
+                "mockery/mockery": "~0.9.4",
+                "phpunit/phpunit": "~5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                },
+                {
+                    "name": "Adam Engebretson",
+                    "email": "adam@laravelcollective.com"
+                }
+            ],
+            "description": "HTML and Form Builders for the Laravel Framework",
+            "homepage": "http://laravelcollective.com",
+            "time": "2016-12-13 14:23:36"
+        },
+        {
             "name": "lcobucci/jwt",
             "version": "3.2.1",
             "source": {
@@ -829,16 +883,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.38",
+            "version": "1.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4ba6e13f5116204b21c3afdf400ecf2b9eb1c482"
+                "reference": "2474325ee924134bb05848663b12531f6f2e9fbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4ba6e13f5116204b21c3afdf400ecf2b9eb1c482",
-                "reference": "4ba6e13f5116204b21c3afdf400ecf2b9eb1c482",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/2474325ee924134bb05848663b12531f6f2e9fbe",
+                "reference": "2474325ee924134bb05848663b12531f6f2e9fbe",
                 "shasum": ""
             },
             "require": {
@@ -908,7 +962,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-04-22 18:59:19"
+            "time": "2017-04-25 15:24:43"
         },
         {
             "name": "league/oauth2-server",

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content>
+  <login>
+    <not_match>
+      <value>emailもしくはpasswordが間違っています</value>
+    </not_match>
+    <not_found>
+      <value>emailもしくはpasswordが間違っています</value>
+    </not_found>
+  </login>
+  <common>
+    <ng>
+      <value>Error</value>
+    </ng>
+  </common>
+</content>

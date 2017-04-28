@@ -4,12 +4,12 @@
 @include('common.header')
 @section('content')
 <body>
-<div id="wrapper">
+<div id="wrapper" class="center-block">
     <div id=header>
         <h1>Login</h1>
     </div>
-    <div id="body">
-        <div id="loginbox">
+    <div id="body" class="center-block">
+        <div id="loginbox" class="center-block">
             <div class="container" id="login-entry" v-show="showLogin">
                 {!! Form::open(['route' => 'GET_LOGIN']) !!}
                 <p>ログイン</p>

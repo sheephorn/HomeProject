@@ -27,6 +27,11 @@
                     <button type="button" class="btn btn-default" @click="toggleLoginAndRegist()">新規登録画面へ</button>
                     </div>
                     {!! Form::close() !!}
+                    <div class="row">
+                        {!! Form::open(['route' => 'GET_DASHBOARD', 'method' => 'get']) !!}
+                        <auto-button login="{{ session('user') ? 1: 0 }}"></auto-button>
+                        {!! Form::close() !!}
+                    </div>
         </div>
         <div class="container one-time-hidden" v-show="showRegist">
             {!! Form::open(['route' => 'USER_REGIST']) !!}

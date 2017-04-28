@@ -27,6 +27,11 @@ class LoginController extends Controller
         return view('page.login');
     }
 
+    public function getDashboardPage(Request $request)
+    {
+        return view('page.dashboard');
+    }
+
     /**
      * ログイン処理
      * @param  Object $request Request
@@ -36,7 +41,7 @@ class LoginController extends Controller
     {
         $ret = $this->loginService->login($request);
         if ($ret['ret']) {
-            $returnable =  view('page.login');
+            $returnable =  redirect()->route('GET_DASHBOARD');
         } else {
             $returnable = view('page.login', ['message' => $ret['message']]);
         }
@@ -51,6 +56,13 @@ class LoginController extends Controller
     public function easyRegist(EasyUserRegistRequest $request)
     {
         $ret = $this->loginService->easyRegist($request);
-        return $ret;
+        $returnable = view('page.login', ['message' => $ret['message']]);
+        return $returnable;
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect()->route('LOGIN_VIEW');
     }
 }

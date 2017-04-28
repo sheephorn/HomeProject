@@ -21,12 +21,12 @@ class LoginService
         if (isset($user)) {
             if (password_verify($condition['password'], $user->password)) {
                 $convertedUser = json_decode(json_encode($user), true);
-                $this->addUserSession($convertedUser);
+                $this->addUserSession($condition, $convertedUser);
                 $ret = [
                     'code' => app('CodeCreater')->getResponseCode('ok'),
                     'message' => '',
                     'accessTime' => getAccessTime(),
-                    'ret' => false,
+                    'ret' => true,
                 ];
             } else {
                 $ret = [
@@ -51,10 +51,9 @@ class LoginService
      * ログインセッションを発行する
      * @param Array $user 付与するユーザー情報配列
      */
-    private function addUserSession($user)
+    private function addUserSession($request, $user)
     {
-        $convertedUser = json_decode(json_encode($user), true);
-        session(['user' => $user]);
+        $request->session()->put('user', $user);
         return true;
     }
 
@@ -65,33 +64,39 @@ class LoginService
      */
     public function easyRegist($condition)
     {
-        $user = $this->mMemberRepository->getUserLoginInfo($condition->email);
-        if (!isset($user)) {
-            $info = [
-                'first_name' => '',
-                'last_name' => '',
-                'birth_date' => getCurrentDateTimeobject()->format('Y-m-d'),
-                'home_id' => '0',
-                'email' => $condition->email,
-                'password' => password_hash($condition->password, PASSWORD_DEFAULT),
-                'post_code' => '0',
-                'prefecture_id' => '0',
-                'prefecture_name' => '',
-                'address' => '',
-            ];
-            $result = $this->mMemberRepository->save(['member_id' => 'new'], $info);
-            $ret = [
-                'code' => app('CodeCreater')->getResponseCode('ok'),
-                'message' => '',
-                'accessTime' => getAccessTime(),
-            ];
-        } else {
+        try {
+            $user = $this->mMemberRepository->getUserLoginInfo($condition->email);
+            if (!isset($user)) {
+                $info = [
+                    'first_name' => '',
+                    'last_name' => '',
+                    'birth_date' => getCurrentDateTimeobject()->format('Y-m-d'),
+                    'home_id' => '0',
+                    'email' => $condition->email,
+                    'password' => password_hash($condition->password, PASSWORD_DEFAULT),
+                    'post_code' => '0',
+                    'prefecture_id' => '0',
+                    'prefecture_name' => '',
+                    'address' => '',
+                ];
+                $result = $this->mMemberRepository->save(['member_id' => 'new'], $info);
+                $ret = [
+                    'code' => app('CodeCreater')->getResponseCode('ok'),
+                    'message' => app('MessageCreater')->getLoginMessage('regist_success'),
+                ];
+            } else {
+                $ret = [
+                    'code' => app('CodeCreater')->getResponseCode('ng'),
+                    'message' => app('MessageCreater')->getLoginMessage('already_exists'),
+                ];
+            }
+        } catch (\Exception $e) {
             $ret = [
                 'code' => app('CodeCreater')->getResponseCode('ng'),
-                'message' => app('MessageCreater')->getLoginMessage('already_exists'),
-                'accessTime' => getAccessTime(),
+                'message' => app('MessageCreater')->getCommonErrorMessage(),
             ];
         }
+        $ret['accessTime'] = getAccessTime();
         return $ret;
     }
 }

@@ -47,6 +47,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
+            \Session::flush();
             $ret =  redirect()->route('LOGIN_VIEW');
         }
         if (!isset($ret)) {

@@ -15,9 +15,16 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->session()->has('users')) {
-            return redirect()->route('login');
+        \Log::debug( $request->session()->all());
+        // セッションにユーザー情報が持っていなかったらログインページにリダイレクとさせる
+        // ユーザー情報はログイン時に付与される
+        if (!$request->session()->has('user')) {
+            $request->session()->flush();
+            $ret = redirect()->route('LOGIN_VIEW');
         }
-        return $next($request);
+        if (!isset($ret)) {
+            $ret = $next($request);
+        }
+        return $ret;
     }
 }

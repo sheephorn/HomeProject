@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <content>
   <login>
+    <already_exists>
+      <value>そのemailはすでに登録されています</value>
+    </already_exists>
     <not_match>
       <value>emailもしくはpasswordが間違っています</value>
     </not_match>

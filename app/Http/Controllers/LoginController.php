@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\LoginService;
+use App\Http\Requests\EasyUserRegistRequest;
 
 class LoginController extends Controller
 {
@@ -37,7 +38,7 @@ class LoginController extends Controller
         if ($ret['ret']) {
             $returnable =  view('page.login');
         } else {
-            $returnable = view('page.login', ['data' => $ret['data']]);
+            $returnable = view('page.login', ['message' => $ret['message']]);
         }
         return $returnable;
     }
@@ -47,9 +48,9 @@ class LoginController extends Controller
      * @param  Object $request Request
      * @return Array           結果コード等含む配列
      */
-    public function regist(Request $request)
+    public function easyRegist(EasyUserRegistRequest $request)
     {
-        $ret = $this->loginService->regist($request);
+        $ret = $this->loginService->easyRegist($request);
         return $ret;
     }
 }

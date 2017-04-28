@@ -8,7 +8,7 @@ class LoginService
 {
     protected $mMemberRepository;
 
-    public function __counstruct(
+    public function __construct(
         MMemberRepository $mMemberRepository
         )
     {
@@ -59,23 +59,23 @@ class LoginService
     }
 
     /**
-     * ユーザーを新規登録する
+     * ユーザーを簡易新規登録する
      * @param  Object $condition Request
      * @return Array            結果コードを含む配列
      */
-    public function regist($condition)
+    public function easyRegist($condition)
     {
         $user = $this->mMemberRepository->getUserLoginInfo($condition->email);
         if (!isset($user)) {
             $info = [
                 'first_name' => '',
                 'last_name' => '',
-                'birth_date' => '',
-                'home_id' => '',
+                'birth_date' => getCurrentDateTimeobject()->format('Y-m-d'),
+                'home_id' => '0',
                 'email' => $condition->email,
-                'password' => password_hash($condition->password),
-                'post_code' => '',
-                'prefecture_id' => '',
+                'password' => password_hash($condition->password, PASSWORD_DEFAULT),
+                'post_code' => '0',
+                'prefecture_id' => '0',
                 'prefecture_name' => '',
                 'address' => '',
             ];

@@ -1,0 +1,5 @@
+/*errorメッセージ表示*/
+p.error {color: red; font-weight: bold;}
+/*初期非表示*/
+.hidden {display: none;}
+.one-time-hidden {visibility: hidden;}

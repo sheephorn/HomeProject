@@ -16,11 +16,19 @@
     <middleware />
   </function>
   <function id="GET_LOGIN">
-      <comment>ログイン制御機能</comment>
+    <comment>ログイン制御機能</comment>
     <controller>LoginController</controller>
     <method>post</method>
     <path>login</path>
     <controllerMethod>login</controllerMethod>
+    <middleware />
+  </function>
+  <function id="USER_REGIST">
+    <comment>ユーザの簡易登録</comment>
+    <controller>LoginController</controller>
+    <method>post</method>
+    <path>user/easy_regist</path>
+    <controllerMethod>easyRegist</controllerMethod>
     <middleware />
   </function>
 </content>

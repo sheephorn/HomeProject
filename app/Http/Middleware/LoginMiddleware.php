@@ -19,7 +19,7 @@ class LoginMiddleware
         // ユーザー情報はログイン時に付与される
         // RequestがAjaxだった場合はResponseを返し、ログアウトのリダイレクト先を渡す
         if (!$request->session()->has('user')) {
-            if($this->ajax()) {
+            if($request->ajax()) {
                 $ret = [
                     'code' => app('CodeCreater')->getResponseCode('ng'),
                     'message' => app('MessageCreater')->getLoginMiddlewareMessage('ajax'),

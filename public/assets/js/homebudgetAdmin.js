@@ -25,9 +25,6 @@ Vue.component('add-button', {
     methods: {
         add: function(event) {
             createLoadingGif(event.target);
-            createLog(this.action)
-            createLog(add.addFormObj)
-
             execAjax(this.action, add.addFormObj, getAddHomeBudgetCallback(), getFailCallback());
         },
     }

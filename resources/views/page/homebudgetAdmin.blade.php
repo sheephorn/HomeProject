@@ -7,6 +7,7 @@
 <div id="wrapper">
     <div id=header>
         <h1>トップ</h1>
+        <a class="btn btn-default" href="{{ route('GET_DASHBOARD') }}">戻る</a>
     </div>
     <div id="body">
         <div id="add">

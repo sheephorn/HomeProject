@@ -23,4 +23,20 @@ class BaseRepository
 		return $instance;
 	}
 
+    protected function orderBy($query, $condition, $sortArray)
+    {
+        if(isset($condition['sort']) && $condition['sort'] !== '' && isset($sortArray[$condition['sort']]) ) {
+            if(isset($condition['order']) && ($condition['order'] === 'asc' || $condition['order'] === 'desc')) {
+                $order = $condition['order'];
+            } else {
+                $order = 'asc';
+            }
+            $sorts = explode(',', $sortArray[$condition['sort']]);
+            foreach ($sorts as $sort) {
+                $query = $query->orderBy($sort, $order);
+            }
+        }
+        return $query;
+    }
+
 }

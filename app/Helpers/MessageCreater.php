@@ -16,7 +16,6 @@ class MessageCreater
      * コンストラクタ
      *
      * XMLファイルを読込みは配列に変換する
-     * 機能idごとにインデックスをつける
      */
     public function __construct()
     {
@@ -36,6 +35,11 @@ class MessageCreater
 
     public function getLoginMiddlewareMessage($str)
     {
-        return $this->xml['loginmiddleware']['str']['value'];
+        return $this->xml['loginmiddleware'][$str]['value'];
+    }
+
+    public function getAddHomebudgetMessage($str)
+    {
+        return $this->xml['add_homebudget'][$str]['value'];
     }
 }

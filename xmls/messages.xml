@@ -25,4 +25,12 @@
       <commnet>ログインミドルウェアに引っかかり、RequestがAjaxだった場合のエラーメッセージ</commnet>
     </ajax>
   </loginmiddleware>
+  <add_homebudget>
+    <success>
+      <value>追加完了</value>
+    </success>
+    <already_exists>
+      <value>すでに同名の家計を管理しています。</value>
+    </already_exists>
+  </add_homebudget>
 </content>

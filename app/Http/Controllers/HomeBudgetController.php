@@ -30,7 +30,7 @@ class HomeBudgetController extends BaseController
 
     public function add(Request $request)
     {
-        $data = $this->homeBudgetService->add();
-        return $ret;
+        $data = $this->homeBudgetService->add($request);
+        return $data;
     }
 }

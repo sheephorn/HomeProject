@@ -2,21 +2,23 @@
 
 namespace App\Services;
 
-use App\Repositories\MMemberRepository;
+use App\Repositories\MMembersRepository;
 use App\Repositories\MHomebudgetsRepository;
 use App\Repositories\THhomebudgetConnectsRepository;
 
 class HomeBudgetService extends BaseService
 {
-    protected $mMemberRepository;
+    protected $mMembersRepository;
+    protected $mHomebudgetsRepository;
+    protected $tHhomebudgetConnectsRepository;
 
     public function __construct(
-        MMemberRepository $mMemberRepository,
+        MMembersRepository $mMembersRepository,
         MHomebudgetsRepository $mHomebudgetsRepository,
         THhomebudgetConnectsRepository $tHhomebudgetConnectsRepository
         )
     {
-        $this->mMemberRepository = $mMemberRepository;
+        $this->mMembersRepository = $mMembersRepository;
         $this->mHomebudgetsRepository = $mHomebudgetsRepository;
         $this->tHhomebudgetConnectsRepository = $tHhomebudgetConnectsRepository;
     }
@@ -40,17 +42,17 @@ class HomeBudgetService extends BaseService
         if( !isset($homebudget) ) {
             // ok
             try {
-                $ret = \DB::transaction(function() use ($conditions){
+                $ret = \DB::transaction(function() use ($condition){
                     $homebudgetContents = [
                         'name' => $condition->name,
                         'manager_id' => $condition->session()->get('user')['member_id'],
                     ];
-                    $homebudget = $this->mHomebudgetsRepository->save(['homebudgets_id' => 'new'], $contents);
+                    $homebudget = $this->mHomebudgetsRepository->save(['homebudget_id' => 0], $homebudgetContents);
                     $connectionContents = [
                         'member_id' => $condition->session()->get('user')['member_id'],
                         'homebudget_id' => $homebudget->homebudget_id,
                     ];
-                    $connection = $this->tHhomebudgetConnectsRepository->save(['id' => 'new'], $connectionContents);
+                    $connection = $this->tHhomebudgetConnectsRepository->save(['id' => 0], $connectionContents);
 
                     $ret = [
                         'code' => app('CodeCreater')->getResponseCode('ok'),
@@ -61,6 +63,7 @@ class HomeBudgetService extends BaseService
                 });
             } catch(\Exception $e) {
                 // 例外処理
+                createErrorLog($e, $condition);
                 $ret = [
                     'code' => app('CodeCreater')->getResponseCode('ng'),
                     'message' => app('MessageCreater')->getCommonErrorMessage(),

@@ -14,6 +14,9 @@
             <div class="container">
                 <div class="form-group">
                     <label>家計名</label>
+                    <div v-if="addMessage !== ''">
+                        <label v-text="addMessage" style="color:red;"></label>
+                    </div>
                     {!! Form::text('name', '', ['placeholder' => '家計名', 'class' => 'form-control', 'v-model' => 'homebudgetName']) !!}
                 </div>
                 <add-button text="登録" action="{{ route('ADD_HOMEBUDGET') }}" memberid="{{ $request->session()->get('user')['member_id'] }}"></add-button>

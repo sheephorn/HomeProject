@@ -1,6 +1,6 @@
 <script>
-    {{-- ログの出力制御　0:出力しない 0:出力する --}}
-    const DEBUG = 0;
+    {{-- ログの出力制御　0:出力しない 1:出力する --}}
+    const DEBUG = 1;
     {{-- ローディング画像のpath --}}
     const LOADING_IMAGE = '{{ asset('assets/images/ajax-loader.gif') }}';
     {{-- Ajaxリクエストの返答コードの定義 --}}

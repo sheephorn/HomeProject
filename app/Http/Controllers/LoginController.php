@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\LoginService;
 use App\Http\Requests\EasyUserRegistRequest;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     protected $loginService;
 

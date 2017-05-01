@@ -20,7 +20,8 @@
                     {!! Form::text('email', '', ['placeholder' => 'e-mail']) !!}
                 </div>
                 <div class="row">
-                    {!! Form::password('password',['placeholder' => 'password']) !!}
+                    {!! Form::password('',['placeholder' => 'password', 'v-model' => 'loginPassword']) !!}
+                    {!! Form::hidden('password', '', ['v-model' => 'convertLoginPassword']) !!}
                 </div>
                 <div class="row">
                     <button type="submit" class="btn btn-primary">ログイン</button>
@@ -40,7 +41,8 @@
                 {!! Form::text('email', '', ['placeholder' => 'e-mail']) !!}
             </div>
             <div class="row">
-                {!! Form::password('password', ['placeholder' => 'password']) !!}
+                {!! Form::password('', ['placeholder' => 'password', 'v-model' => 'registPassword']) !!}
+                {!! Form::hidden('password', '', ['v-model' => 'convertRegistPassword']) !!}
             </div>
             <div class="row">
                 <button type="submit" class="btn btn-primary">登録</button>
@@ -56,6 +58,7 @@
 </body>
 @stop
 @section('addJs')
+    <script src="{{{ asset('assets/js/sha256.js' )}}}"></script>
     <script src="{{{ asset('assets/js/login.js' )}}}"></script>
 @stop
 @include('common.footer')

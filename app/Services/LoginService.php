@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Repositories\MMemberRepository;
 
-class LoginService
+class LoginService extends BaseService
 {
     protected $mMemberRepository;
 

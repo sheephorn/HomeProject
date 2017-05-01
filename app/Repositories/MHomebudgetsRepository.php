@@ -2,15 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Eloquent\m_members;
+use App\Repositories\Eloquent\m_homebudgets;
 
-class MMembersRepository extends BaseRepository
+class MHomebudgetsRepository extends BaseRepository
 {
     protected $model;
 
-    public function __construct(m_members $m_members)
+    public function __construct(m_homebudgets $m_homebudgets)
     {
-        $this->model = $m_members;
+        $this->model = $m_homebudgets;
     }
 
     /**

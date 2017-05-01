@@ -2,22 +2,22 @@
 
 namespace App\Services;
 
-use App\Repositories\MMemberRepository;
+use App\Repositories\MMembersRepository;
 
 class LoginService extends BaseService
 {
     protected $mMemberRepository;
 
     public function __construct(
-        MMemberRepository $mMemberRepository
+        MMembersRepository $mMembersRepository
         )
     {
-        $this->mMemberRepository = $mMemberRepository;
+        $this->mMembersRepository = $mMembersRepository;
     }
 
     public function login($condition)
     {
-        $user = $this->mMemberRepository->getUserLoginInfo($condition->email);
+        $user = $this->mMembersRepository->getUserLoginInfo($condition->email);
         if (isset($user)) {
             if (password_verify($condition['password'], $user->password)) {
                 $convertedUser = json_decode(json_encode($user), true);
@@ -65,7 +65,7 @@ class LoginService extends BaseService
     public function easyRegist($condition)
     {
         try {
-            $user = $this->mMemberRepository->getUserLoginInfo($condition->email);
+            $user = $this->mMembersRepository->getUserLoginInfo($condition->email);
             if (!isset($user)) {
                 $info = [
                     'first_name' => '',
@@ -79,7 +79,7 @@ class LoginService extends BaseService
                     'prefecture_name' => '',
                     'address' => '',
                 ];
-                $result = $this->mMemberRepository->save(['member_id' => 'new'], $info);
+                $result = $this->mMembersRepository->save(['member_id' => 'new'], $info);
                 $ret = [
                     'code' => app('CodeCreater')->getResponseCode('ok'),
                     'message' => app('MessageCreater')->getLoginMessage('regist_success'),

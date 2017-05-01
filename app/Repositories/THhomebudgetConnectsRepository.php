@@ -2,15 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Eloquent\m_members;
+use App\Repositories\Eloquent\t_homebudget_connects;
 
-class MMembersRepository extends BaseRepository
+class THhomebudgetConnectsRepository extends BaseRepository
 {
     protected $model;
 
-    public function __construct(m_members $m_members)
+    public function __construct(t_homebudget_connects $t_homebudget_connects)
     {
-        $this->model = $m_members;
+        $this->model = $t_homebudget_connects;
     }
 
     /**

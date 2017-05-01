@@ -33,4 +33,9 @@ class MessageCreater
     {
         return $this->xml['login'][$str]['value'];
     }
+
+    public function getLoginMiddlewareMessage($str)
+    {
+        return $this->xml['loginmiddleware']['str']['value'];
+    }
 }

@@ -31,12 +31,28 @@
     <controllerMethod>easyRegist</controllerMethod>
     <middleware />
   </function>
+  <function id="GET_HOMEBUDGETADMIN_PAGE">
+    <comment>家計編集画面の表示</comment>
+    <controller>HomeBudgetController</controller>
+    <method>get</method>
+    <path>user/edit_homebudget</path>
+    <controllerMethod>getEditPage</controllerMethod>
+    <middleware>login</middleware>
+  </function>
   <function id="GET_DASHBOARD">
     <comment>ダッシュボードページの表示</comment>
     <controller>LoginController</controller>
     <method>get_post</method>
     <path>user/dashboard</path>
     <controllerMethod>getDashboardPage</controllerMethod>
+    <middleware>login</middleware>
+  </function>
+  <function id="ADD_HOMEBUDGET">
+    <comment>家計のマスタ追加</comment>
+    <controller>HomeBudgetController</controller>
+    <method>post</method>
+    <path>homebudget/addnew</path>
+    <controllerMethod>add</controllerMethod>
     <middleware>login</middleware>
   </function>
   <function id="LOGOUT">

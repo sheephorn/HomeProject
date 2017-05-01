@@ -15,6 +15,7 @@ class MMemberRepository extends BaseRepository
 
     /**
      * 指定emailで登録しているuserを取得する
+     * 取得したパラメータすべてをログイン時のSessionに保持する
      * @param  String $email 登録済みEmail
      * @return Object        Userレコード
      */
@@ -23,6 +24,7 @@ class MMemberRepository extends BaseRepository
         $select = [
             'email',
             'password',
+            'member_id',
         ];
         return $this->model
                 ->where('email', $email)

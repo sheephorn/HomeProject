@@ -15,12 +15,21 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        \Log::debug( $request->session()->all());
         // セッションにユーザー情報が持っていなかったらログインページにリダイレクとさせる
         // ユーザー情報はログイン時に付与される
+        // RequestがAjaxだった場合はResponseを返し、ログアウトのリダイレクト先を渡す
         if (!$request->session()->has('user')) {
-            $request->session()->flush();
-            $ret = redirect()->route('LOGIN_VIEW');
+            if($this->ajax()) {
+                $ret = [
+                    'code' => app('CodeCreater')->getResponseCode('ng'),
+                    'message' => app('MessageCreater')->getLoginMiddlewareMessage('ajax'),
+                    'accessTime' => getAccessTime(),
+                    'action' => route('LOGOUT'),
+                ];
+            } else {
+                $ret = redirect()->route('LOGOUT');
+            }
+
         }
         if (!isset($ret)) {
             $ret = $next($request);

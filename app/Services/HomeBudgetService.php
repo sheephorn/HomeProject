@@ -17,7 +17,7 @@ class HomeBudgetService extends BaseService
 
     public function getEditPage($condition)
     {
-        $data = $this->sasasa->sasasa();
+        // $data = $this->sasasa->sasasa();
         $data['code'] = app('CodeCreater')->getResponseCode('ok');
         $data['message'] = '';
         $data['accessTime'] = getAccessTime();

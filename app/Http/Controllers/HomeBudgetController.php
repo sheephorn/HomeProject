@@ -23,8 +23,9 @@ class HomeBudgetController extends BaseController
      */
     public function getEditPage(Request $request)
     {
-        $data = $this->homeBudgetService->getEditPage();
-        return view('', compact('data'));
+        $data = $this->homeBudgetService->getEditPage($request);
+        \Log::debug($request->session()->get('user'));
+        return view('page.homebudgetAdmin', compact('data', 'request'));
     }
 
     public function add(Request $request)

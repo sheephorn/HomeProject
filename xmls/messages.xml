@@ -19,4 +19,10 @@
       <value>Error</value>
     </ng>
   </common>
+  <loginmiddleware>
+    <ajax>
+      <value>再度ログインしてください</value>
+      <commnet>ログインミドルウェアに引っかかり、RequestがAjaxだった場合のエラーメッセージ</commnet>
+    </ajax>
+  </loginmiddleware>
 </content>

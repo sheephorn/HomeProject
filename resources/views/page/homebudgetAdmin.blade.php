@@ -1,5 +1,6 @@
 @extends('common.layout')
 @section('addCss')
+    <link rel="stylesheet" type="text/css" href="{{{ asset('assets/css/homebudget.css') }}}">
 @stop
 @include('common.header')
 @section('content')
@@ -9,8 +10,11 @@
         <h1>トップ</h1>
         <a class="btn btn-default" href="{{ route('GET_DASHBOARD') }}">戻る</a>
     </div>
+    <hr>
     <div id="body">
         <div id="add">
+            <h2>家計の新規作成</h2>
+            <p>作成する家計名を入力してください。</p>
             {!! Form::open() !!}
             <div class="container">
                 <div class="form-group">
@@ -20,7 +24,9 @@
                     </div>
                     {!! Form::text('name', '', ['placeholder' => '家計名', 'class' => 'form-control', 'v-model' => 'homebudgetName']) !!}
                 </div>
-                <add-button text="登録" action="{{ route('ADD_HOMEBUDGET') }}" memberid="{{ $request->session()->get('user')['member_id'] }}"></add-button>
+                <div class="form-group">
+                    <add-button text="登録" action="{{ route('ADD_HOMEBUDGET') }}" memberid="{{ $request->session()->get('user')['member_id'] }}"></add-button>
+                </div>
             </div>
             {!! Form::close() !!}
         </div>

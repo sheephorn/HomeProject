@@ -12,7 +12,10 @@
     </div>
     <hr>
     <div id="body">
-        <div id="add">
+        <div id="buttons">
+            <button type="button" class="btn btn-default" @click="toggleDiv('add')">家計登録</button>
+        </div>
+        <div id="add" v-cloak v-show="showadd">
             <h2>家計の新規作成</h2>
             <p>作成する家計名を入力してください。</p>
             {!! Form::open() !!}

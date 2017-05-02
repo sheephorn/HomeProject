@@ -2,36 +2,33 @@
 
 namespace App\Services;
 
-use App\Repositories\MMembersRepository;
-use App\Repositories\MHomebudgetsRepository;
-use App\Repositories\THhomebudgetConnectsRepository;
+use App\Repositories\MPlaceGroupsRepository;
+use App\Repositories\MPlacesRepository;
 
-class HomeBudgetService extends BaseService
+class PlaceAdminService extends BaseService
 {
-    protected $mMembersRepository;
-    protected $mHomebudgetsRepository;
-    protected $tHhomebudgetConnectsRepository;
+    protected $mPlaceGroupsRepository;
+    protected $mPlacesRepository;
 
     public function __construct(
-        MMembersRepository $mMembersRepository,
-        MHomebudgetsRepository $mHomebudgetsRepository,
-        THhomebudgetConnectsRepository $tHhomebudgetConnectsRepository
+        MPlaceGroupsRepository $mPlaceGroupsRepository,
+        MPlacesRepository $mPlacesRepository
         )
     {
-        $this->mMembersRepository = $mMembersRepository;
-        $this->mHomebudgetsRepository = $mHomebudgetsRepository;
-        $this->tHhomebudgetConnectsRepository = $tHhomebudgetConnectsRepository;
+        $this->mPlaceGroupsRepository = $mPlaceGroupsRepository;
+        $this->mPlacesRepository = $mPlacesRepository;
     }
 
-    public function getEditPage($condition)
+    public function getPage($condition)
     {
+        $data['select']['groups'] = $this->mPlaceGroupsRepository->getGroupList();
         $data['code'] = app('CodeCreater')->getResponseCode('ok');
         $data['message'] = '';
         $data['accessTime'] = getAccessTime();
         return $data;
     }
 
-    public function add($condition)
+    public function addPlace($condition)
     {
         $conditions = [
             'managerId' => $condition->session()->get('user')['member_id'],
@@ -77,6 +74,35 @@ class HomeBudgetService extends BaseService
                 'accessTime' => getAccessTime(),
             ];
         }
+        return $ret;
+    }
+
+    public function addGroup($condition)
+    {
+        $group = $this->mPlaceGroupsRepository->findByName($condition->groupName);
+        if(!isset($group)){
+            try {
+                $ret = \DB::transaction(function() use ($condition){
+                    $result = $this->mPlaceGroupsRepository->save(['group_id' => 0], ['group_name' => $condition->groupName]);
+                    return [
+                        'code' => app('CodeCreater')->getResponseCode('ok'),
+                        'message' => app('MessageCreater')->getAddPlaceGroupsMessage('success'),
+                    ];
+                });
+            } catch(\Exception $e) {
+                createErrorLog($e, $condition);
+                $ret = [
+                    'code' => app('CodeCreater')->getResponseCode('ng'),
+                    'message' => app('MessageCreater')->getCommonErrorMessage(),
+                ];
+            }
+        } else {
+            $ret = [
+                'code' => app('CodeCreater')->getResponseCode('ng'),
+                'message' => app('MessageCreater')->getAddPlaceGroupsMessage('already_exists'),
+            ];
+        }
+        $ret['accessTime'] = getAccessTime();
         return $ret;
     }
 

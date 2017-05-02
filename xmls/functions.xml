@@ -63,4 +63,20 @@
     <controllerMethod>logout</controllerMethod>
     <middleware />
   </function>
+  <function id="ADD_PLACE_GROUP">
+    <comment>場所グループのマスタ登録</comment>
+    <controller>PlaceAdminController</controller>
+    <method>post</method>
+    <path>place/add_group</path>
+    <controllerMethod>addGroup</controllerMethod>
+    <middleware>login</middleware>
+  </function>
+  <function id="ADD_PLACE">
+    <comment>場所のマスタ登録</comment>
+    <controller>PlaceAdminController</controller>
+    <method>post</method>
+    <path>place/add_place</path>
+    <controllerMethod>addPlace</controllerMethod>
+    <middleware>login</middleware>
+  </function>
 </content>

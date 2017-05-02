@@ -42,4 +42,9 @@ class MessageCreater
     {
         return $this->xml['add_homebudget'][$str]['value'];
     }
+
+    public function getAddPlaceGroupsMessage($str)
+    {
+        return $this->xml['add_placegroup'][$str]['value'];
+    }
 }

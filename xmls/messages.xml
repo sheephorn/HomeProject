@@ -33,4 +33,12 @@
       <value>すでに同名の家計を管理しています。</value>
     </already_exists>
   </add_homebudget>
+  <add_placegroup>
+    <success>
+      <value>追加完了</value>
+    </success>
+    <already_exists>
+      <value>すでに同名のグループが存在しています。</value>
+    </already_exists>
+  </add_placegroup>
 </content>

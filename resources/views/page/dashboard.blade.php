@@ -15,6 +15,7 @@
                 </li>
                 <li><a href="{{ route('GET_HOMEBUDGETADMIN_PAGE') }}" title="家計の設定を行います">家計設定</a></li>
                 <li><a href="{{ route('LOGOUT') }}" title="ログアウトを行います">ログアウト</a></li>
+                <li><a href="" title="消費場所の追加を行います">消費場所管理</a></li>
             </ul>
         </div>
         <div id="content">
@@ -27,6 +28,6 @@
 </body>
 @stop
 @section('addJs')
-    <script src="{{{ asset('assets/js/login.js' )}}}"></script>
+    <script src="{{{ asset('assets/js/dashboard.js' )}}}"></script>
 @stop
 @include('common.footer')

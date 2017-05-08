@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TDocumentPlaces extends Migration
+class TDocumentTags extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class TDocumentPlaces extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('t_document_places');
-        Schema::create('t_document_places', function (Blueprint $table) {
-            $table->integer('folder_id')->unsigned();
-            $table->string('folder_name');
-            $table->string('address');
+        Schema::dropIfExists('t_document_tags');
+        Schema::create('t_document_tags', function (Blueprint $table) {
             $table->integer('document_id')->unsigned();
-            $table->timestamps();
-            $table->softDeletes();
-            $table->primary(['folder_id', 'address']);
+            $table->string('tag_name');
         });
     }
 

@@ -79,4 +79,20 @@
     <controllerMethod>addPlace</controllerMethod>
     <middleware>login</middleware>
   </function>
+  <function id="GET_DOCUMENT_LISTPAGE">
+    <comment>書類一覧ページの取得</comment>
+    <controller>DocumentController</controller>
+    <method>get_post</method>
+    <path>document/list</path>
+    <controllerMethod>getList</controllerMethod>
+    <middleware>login</middleware>
+  </function>
+  <function id="GET_DOCUMENT_CONTENTS">
+    <comment>書類一覧ページデータの取得</comment>
+    <controller>DocumentController</controller>
+    <method>post</method>
+    <path>document/list_contents</path>
+    <controllerMethod>getListContents</controllerMethod>
+    <middleware>login</middleware>
+  </function>
 </content>

@@ -35,22 +35,43 @@
             </div>
         </div>
         <div id="add" v-cloak v-show="showadd">
-            <h2>家計の新規作成</h2>
-            <p>作成する家計名を入力してください。</p>
-            {!! Form::open() !!}
+            <h2>書類の新規作成</h2>
+            <p>作成する書類の入力してください。</p>
             <div class="container">
-                <div class="form-group">
-                    <label>家計名</label>
-                    <div v-if="addMessage !== ''">
-                        <label v-text="addMessage" style="color:red;"></label>
-                    </div>
-                    {!! Form::text('name', '', ['placeholder' => '家計名', 'class' => 'form-control', 'v-model' => 'homebudgetName']) !!}
+                <div v-if="message !== ''">
+                    <label v-text="message" style="color:red;"></label>
                 </div>
                 <div class="form-group">
-                    <add-button text="登録" action="{{ route('ADD_HOMEBUDGET') }}" memberid="{{ $request->session()->get('user')['member_id'] }}"></add-button>
+                    <label>書類名</label>
+                    {!! Form::text('', '', ['placeholder' => '書類名', 'class' => 'form-control', 'v-model' => 'title']) !!}
+                </div>
+                <div class="form-group">
+                    <label>家計</label>
+                    <select class="form-control" v-model="homebudgetId"><option value="aaa">NEW</option></select>
+                </div>
+                <div class="form-group">
+                    <label>重要度</label>
+                    <select class="form-control" v-model="important"><option value="aaa">NEW</option></select>
+                </div>
+                <div class="form-group">
+                    <label>保管期限</label>
+                    <div class="row" style="margin-bottom:10px;">
+                        <div>
+                            <div class="col-xs-2 col-md-2">
+                                <input type="radio" name="daylimit" v-model="limit_target" value="date">
+                                <span>期間指定</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-md-1">{!! Form::text('', '', ['v-bind:class' => '{disabled : disabled_limit_ammount}', 'v-bind' => '{disabled : disabled_limit_ammount}', 'class' => 'form-control' ]) !!}
+                        </div>
+                        <div class="col-xs-1 col-md-1">{!! Form::select('', ['year' => '年', 'month' => 'ヶ月', 'day' => '日'], '', ['class' => 'form-control', 'v-bind:class' => '{disabled : disabled_limit_ammount}', 'v-bind' => '{disabled : disabled_limit_ammount}', 'style' => 'padding:0px']) !!}</div>
+                    </div>
+                    <select class="form-control" v-model="homebudgetId"><option value="aaa">NEW</option></select>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" @click="add('{{ route('ADD_DOCUMENT') }}')">登録</button>
                 </div>
             </div>
-            {!! Form::close() !!}
         </div>
 
     <div id="footer">

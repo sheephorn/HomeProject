@@ -57,14 +57,14 @@
                     <label>保管期限</label>
                     <div class="row" style="margin-bottom:10px;">
                         <div>
-                            <div class="col-xs-2 col-md-2">
+                            <div class="col-xs4 col-md-2">
                                 <input type="radio" name="daylimit" v-model="limit_target" value="date">
                                 <span>期間指定</span>
                             </div>
                         </div>
-                        <div class="col-xs-2 col-md-1">{!! Form::text('', '', ['v-bind:class' => '{disabled : disabled_limit_ammount}', 'v-bind' => '{disabled : disabled_limit_ammount}', 'class' => 'form-control' ]) !!}
+                        <div class="col-xs-4 col-md-1">{!! Form::text('', '', ['v-bind:class' => '{disabled : disabled_limit_ammount}', 'v-bind' => '{disabled : disabled_limit_ammount}', 'class' => 'form-control' ]) !!}
                         </div>
-                        <div class="col-xs-2 col-md-1">{!! Form::select('', ['year' => '年', 'month' => 'ヶ月', 'day' => '日'], '', ['class' => 'form-control', 'v-bind:class' => '{disabled : disabled_limit_ammount}', 'v-bind' => '{disabled : disabled_limit_ammount}', 'style' => 'padding:0px']) !!}</div>
+                        <div class="col-xs-4 col-md-1">{!! Form::select('', ['year' => '年', 'month' => 'ヶ月', 'day' => '日'], '', ['class' => 'form-control', 'v-bind:class' => '{disabled : disabled_limit_ammount}', 'v-bind' => '{disabled : disabled_limit_ammount}', 'style' => 'padding:0px']) !!}</div>
                     </div>
                     <select class="form-control" v-model="homebudgetId"><option value="aaa">NEW</option></select>
                 </div>

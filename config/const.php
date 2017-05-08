@@ -18,4 +18,14 @@ return [
      */
     'date_format' => 'Y/m/d H:i:s',
 
+    /**
+     * リスト表示関連　１ページあたりの標準表示件数
+     */
+    'showListRecordsNumber' => 25,
+
+    /**
+     * リスト表示関連　標準初期表示ページ数
+     */
+     'startPage' => 1,
+
 ];

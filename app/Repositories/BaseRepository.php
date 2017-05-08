@@ -23,6 +23,13 @@ class BaseRepository
 		return $instance;
 	}
 
+    /**
+     * 並び替えクエリの発行関数
+     * @param  Object $query     クエリ
+     * @param  Object $condition Request
+     * @param  Array $sortArray ソート定義済み配列
+     * @return Object            クエリ
+     */
     protected function orderBy($query, $condition, $sortArray)
     {
         if(isset($condition['sort']) && $condition['sort'] !== '' && isset($sortArray[$condition['sort']]) ) {
@@ -39,4 +46,11 @@ class BaseRepository
         return $query;
     }
 
+    public function getPage($condition)
+    {
+        $ret = $this->createQuery($condition)
+            ->forpage($condition['page'], $condition['show'])
+            ->get();
+        return $ret;
+    }
 }

@@ -22,9 +22,9 @@ class MMember extends Migration
             $table->integer('home_id')->unsigned()->default(0);
             $table->string('email');
             $table->string('password');
-            $table->mediumInteger('post_code');
-            $table->tinyInteger('prefecture_id')->unsigned();
-            $table->string('prefecture_name', 4);
+            $table->mediumInteger('post_code')->default(0);
+            $table->tinyInteger('prefecture_id')->unsigned()->default(0);
+            $table->string('prefecture_name', 4)->default('');
             $table->text('address');
             $table->timestamps();
             $table->softDeletes();

@@ -16,6 +16,7 @@ class TDocumentSaves extends Migration
         Schema::dropIfExists('t_document_saves');
         Schema::create('t_document_saves', function (Blueprint $table) {
             $table->integer('document_id')->unsigned();
+            $table->integer('homebudget_id')->unsigned();
             $table->string('title');
             $table->tinyInteger('important');
             $table->text('description');

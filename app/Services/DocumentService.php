@@ -2,25 +2,25 @@
 
 namespace App\Services;
 
-use App\Repositories\MMembersRepository;
-use App\Repositories\MHomebudgetsRepository;
-use App\Repositories\THhomebudgetConnectsRepository;
+use App\Repositories\TDocumentPlacesRepository;
+use App\Repositories\TDocumentSavesRepository;
+use App\Repositories\TDocumentTagsRepository;
 
 class DocumentService extends BaseService
 {
-    protected $mMembersRepository;
-    protected $mHomebudgetsRepository;
-    protected $tHhomebudgetConnectsRepository;
+    protected $tDocumentPlacesRepository;
+    protected $tDocumentSavesRepository;
+    protected $tDocumentTagsRepository;
 
     public function __construct(
-        MMembersRepository $mMembersRepository,
-        MHomebudgetsRepository $mHomebudgetsRepository,
-        THhomebudgetConnectsRepository $tHhomebudgetConnectsRepository
+        TDocumentPlacesRepository $tDocumentPlacesRepository,
+        TDocumentSavesRepository $tDocumentSavesRepository,
+        TDocumentTagsRepository $tDocumentTagsRepository
         )
     {
-        $this->mMembersRepository = $mMembersRepository;
-        $this->mHomebudgetsRepository = $mHomebudgetsRepository;
-        $this->tHhomebudgetConnectsRepository = $tHhomebudgetConnectsRepository;
+        $this->tDocumentPlacesRepository = $tDocumentPlacesRepository;
+        $this->tDocumentSavesRepository = $tDocumentSavesRepository;
+        $this->tDocumentTagsRepository = $tDocumentTagsRepository;
     }
 
     public function getList($condition)
@@ -33,7 +33,7 @@ class DocumentService extends BaseService
 
     public function getListContents($condition)
     {
-        // $data['data'] = 
+        // $data['data'] =
         $data['code'] = app('CodeCreater')->getResponseCode('ok');
         $data['message'] = '';
         $data['accessTime'] = getAccessTime();

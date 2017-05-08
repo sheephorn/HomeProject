@@ -47,4 +47,9 @@ class MessageCreater
     {
         return $this->xml['add_placegroup'][$str]['value'];
     }
+
+    public function getFailMessage($str)
+    {
+        return $this->xml['common']['fail'][$str]['value'];
+    }
 }

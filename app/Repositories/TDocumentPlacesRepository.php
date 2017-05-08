@@ -13,4 +13,13 @@ class TDocumentPlacesRepository extends BaseRepository
         $this->model = $t_document_places;
     }
 
+    /**
+     * 既存レコードのfolder_idの最大値を返す
+     * @return Int 最大値
+     */
+    public function getCurrentMaxFolderId()
+    {
+        return $this->model->max('folder_id');
+    }
+
 }

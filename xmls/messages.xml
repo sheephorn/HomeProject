@@ -18,6 +18,12 @@
     <ng>
       <value>Error</value>
     </ng>
+    <fail>
+      <dateformat>
+        <value>日付フォーマット失敗</value>
+        <commnet>日付フォーマット失敗した場合のメッセージ</commnet>
+      </dateformat>
+    </fail>
   </common>
   <loginmiddleware>
     <ajax>

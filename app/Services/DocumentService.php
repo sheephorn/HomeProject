@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\TDocumentPlacesRepository;
 use App\Repositories\TDocumentSavesRepository;
 use App\Repositories\TDocumentTagsRepository;
+use Illuminate\Http\Request;
 
 class DocumentService extends BaseService
 {
@@ -80,8 +81,8 @@ class DocumentService extends BaseService
             try {
                 $ret = \DB::transaction(function() use ($condition){
                     $resultDocument = $this->addDocument($condition);
-                    $resultPlace = $this->addPlace($condition);
-                    $resultTag = $this->addTag($condition);
+                    $resultPlace = $this->addPlace($condition, $resultDocument);
+                    $resultTag = $this->addTag($condition, $resultDocument);
                     return [
                         'code' => app('CodeCreater')->getResponseCode('ok'),
                         'message' => app('MessageCreater')->getAddHomebudgetMessage('success'),
@@ -131,30 +132,69 @@ class DocumentService extends BaseService
         return $can;
     }
 
+    /**
+     * Documentの新規作成
+     * @param Object $condition Request
+     * @return Object 作成レコード
+     */
     private function addDocument($condition)
     {
-        $documentId = $this->getDocumentId(intval($condition['homebudgetId']));
-        $attr = ['document_id' => $condition['documentId']];
+        $documentId = $this->getNewDocumentId(intval($condition['homebudgetId']));
+        $attr = ['document_id' => $documentId];
         $contents = [
             'document_id' => $documentId,
             'homebudget_id' => $condition['homebudgetId'],
             'title' => $condition['title'],
             'important' => $condition['important'],
             'description' => $condition['description'],
-            'save_limit' => $condition['limitDate'],
+            'save_limit' => getStandardDateFormat($condition['limitDate']),
         ];
-
         $ret = $this->tDocumentSavesRepository->save($attr, $contents);
+        return $ret;
     }
 
-    private function addPlace($condition)
+    /**
+     * 保管場所の新規作成
+     * @param Object $condition Request
+     * @param Object $document  Documentの新規作成レコード
+     */
+    private function addPlace($condition, $document)
     {
-
+        $attr = [
+            'folder_id' => $condition['folderId'],
+            'address' => $condition['address'],
+        ];
+        $contents = [
+            'folder_id' => ($condition['folderId'] !== '') ? $condition['folderId'] : $this->getNewFolderId(),
+            'folder_name' => $condition['folderName'],
+            'address' => $condition['address'],
+            'document_id' => $document->document_id,
+        ];
+        $ret = $this->tDocumentPlacesRepository->save($attr, $contents);
+        return $ret;
     }
 
-    private function addTag($condition)
+    /**
+     * タグの新規作成
+     * @param Object $condition Request
+     * @param Object $document  Documentの新規作成レコード
+     */
+    private function addTag($condition, $document)
     {
-
+        $ret = [];
+        $separator = ' '; // 半角空白で区切る
+        $replaceTargets = [
+            '　', // 全角空白
+        ];
+        $tags = implode($separator, preg_replace($replaceTargets, $separator, $condition['tags']));
+        foreach ($tags as $tag) {
+            $contents = [
+                'document_id' => $document->document_id,
+                'tag_name' => '',
+            ];
+            $ret[] = $this->tDocumentTagsRepository->save($contents, $contents);
+        }
+        return $ret;
     }
 
     /**
@@ -162,7 +202,7 @@ class DocumentService extends BaseService
      * @param  Int $homebudgetId 家計id
      * @return Int               書類id
      */
-    private function getDocumentId($homebudgetId)
+    private function getNewDocumentId($homebudgetId)
     {
         $ret = $this->tDocumentSavesRepository->getCurrentMaxDocumentId($homebudgetId);
         if(isset($ret) && is_int($ret)) {
@@ -171,5 +211,15 @@ class DocumentService extends BaseService
             $num = str_replace('/[^0-9]/', '', getCurrentDate()). sprintf('%03', 1);
         }
         return intval($num);
+    }
+
+    /**
+     * 新規のフォルダーidを返す
+     * @return Int 新規のフォルダーid
+     */
+    private function getNewFolderId()
+    {
+        $num = $this->tDocumentPlacesRepository->getCurrentMaxFolderId();
+        return ++$num;
     }
 }

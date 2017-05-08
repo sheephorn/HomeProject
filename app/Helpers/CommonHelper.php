@@ -28,7 +28,7 @@ function getCurrentDate()
  * 日付のフォーマットを標準に整える
  * 予期せぬフォーマットが与えられた場合は例外を投げる
  */
-function formatStandardDateFormat($date)
+function getStandardDateFormat($date)
 {
     $formats = config('const.expectDateFormats');
     foreach ($formats as $format) {
@@ -40,6 +40,7 @@ function formatStandardDateFormat($date)
     if($ret) {
         $ret->format(config('const.standardDateFormat'));
     } else {
+        \Log::error($date);
         throw new \Exception(app('MessageCreater')->getFailMessage('dateformat'));
     }
 }

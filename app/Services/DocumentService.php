@@ -23,6 +23,11 @@ class DocumentService extends BaseService
         $this->tDocumentTagsRepository = $tDocumentTagsRepository;
     }
 
+    /**
+     * 書類一覧のページ取得
+     * @param  Object $condition Request
+     * @return Array            結果コードを含む配列
+     */
     public function getList($condition)
     {
 
@@ -32,6 +37,11 @@ class DocumentService extends BaseService
         return $data;
     }
 
+    /**
+     * 書類一覧のコンテンツ取得
+     * @param  Object $condition Request
+     * @return Array            結果コードを含む配列
+     */
     public function getListContents($condition)
     {
         $condition = $this->pageInit($condition);
@@ -61,5 +71,48 @@ class DocumentService extends BaseService
         $condition['order'] = isset($condition['order']) ? $condition['order'] : $defaultOrder;
 
         return $condition;
+    }
+
+    public function add($condition)
+    {
+        try {
+            $ret = \DB::transaction(function() use ($condition){
+                $resultDocument = $this->addDocument($condition);
+                $resultPlace = $this->addPlace($condition);
+                $resultTag = $this->addTag($condition);
+                return [
+                    'code' => app('CodeCreater')->getResponseCode('ok'),
+                    'message' => app('MessageCreater')->getAddHomebudgetMessage('success'),
+                ];
+            });
+        } catch (\Exception $e) {
+            createErrorLog($e, $condition);
+            $ret = [
+                'code' => app('CodeCreater')->getResponseCode('ng'),
+                'message' => app('MessageCreater')->getCommonErrorMessage(),
+            ];
+        }
+        $ret['accessTime'] = getAccessTime();
+        return $ret;
+    }
+
+    private function addDocument($condition)
+    {
+        $attr = ['document_id' => $condition['documentId']];
+        $contents = [
+            // 
+        ];
+
+        $ret = $this->tDocumentSavesRepository->save($attr, $contents);
+    }
+
+    private function addPlace($condition)
+    {
+
+    }
+
+    private function addTag($condition)
+    {
+
     }
 }

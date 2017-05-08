@@ -95,4 +95,12 @@
     <controllerMethod>getListContents</controllerMethod>
     <middleware>login</middleware>
   </function>
+  <function id="ADD_DOCUMENT">
+    <comment>書類の追加</comment>
+    <controller>DocumentController</controller>
+    <method>post</method>
+    <path>document/add</path>
+    <controllerMethod>add</controllerMethod>
+    <middleware>login</middleware>
+  </function>
 </content>

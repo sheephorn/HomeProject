@@ -75,32 +75,73 @@ class DocumentService extends BaseService
 
     public function add($condition)
     {
-        try {
-            $ret = \DB::transaction(function() use ($condition){
-                $resultDocument = $this->addDocument($condition);
-                $resultPlace = $this->addPlace($condition);
-                $resultTag = $this->addTag($condition);
-                return [
-                    'code' => app('CodeCreater')->getResponseCode('ok'),
-                    'message' => app('MessageCreater')->getAddHomebudgetMessage('success'),
+        $can = $this->canAdd($condition);
+        if($can['ret']) {
+            try {
+                $ret = \DB::transaction(function() use ($condition){
+                    $resultDocument = $this->addDocument($condition);
+                    $resultPlace = $this->addPlace($condition);
+                    $resultTag = $this->addTag($condition);
+                    return [
+                        'code' => app('CodeCreater')->getResponseCode('ok'),
+                        'message' => app('MessageCreater')->getAddHomebudgetMessage('success'),
+                    ];
+                });
+            } catch (\Exception $e) {
+                createErrorLog($e, $condition);
+                $ret = [
+                    'code' => app('CodeCreater')->getResponseCode('ng'),
+                    'message' => app('MessageCreater')->getCommonErrorMessage(),
                 ];
-            });
-        } catch (\Exception $e) {
-            createErrorLog($e, $condition);
+            }
+        } else {
             $ret = [
                 'code' => app('CodeCreater')->getResponseCode('ng'),
-                'message' => app('MessageCreater')->getCommonErrorMessage(),
+                'message' => $can['message'],
             ];
         }
         $ret['accessTime'] = getAccessTime();
         return $ret;
     }
 
+    /**
+     * 書類の追加が可能か判断
+     * @param  Object $condition Request
+     * @return Array            判断結果・メッセージを含む配列
+     */
+    private function canAdd($condition)
+    {
+        $searchArray = [
+            'folderName' => $condition['folderName'],
+            'address' => $condition['address'],
+            'homebudgetId' => $condition['homebudgetId'],
+        ];
+        $data = $this->tDocumentSavesRepository->createQuery($searchArray)->first();
+        $can['ret'] = true;
+        // 家計に同一フォルダがある場合
+        if($condition['folderId'] === '' && isset($data)) {
+            $can['message'] = '';
+            $can['ret'] =false;
+        }
+        // 指定のアドレスがすでに使われている場合ＮＧ
+        if(isset($data)) {
+            $can['message'] = '';
+            $can['ret'] =false;
+        }
+        return $can;
+    }
+
     private function addDocument($condition)
     {
+        $documentId = $this->getDocumentId(intval($condition['homebudgetId']));
         $attr = ['document_id' => $condition['documentId']];
         $contents = [
-            // 
+            'document_id' => $documentId,
+            'homebudget_id' => $condition['homebudgetId'],
+            'title' => $condition['title'],
+            'important' => $condition['important'],
+            'description' => $condition['description'],
+            'save_limit' => $condition['limitDate'],
         ];
 
         $ret = $this->tDocumentSavesRepository->save($attr, $contents);
@@ -114,5 +155,21 @@ class DocumentService extends BaseService
     private function addTag($condition)
     {
 
+    }
+
+    /**
+     * 書類を新規登録の際のidを返す
+     * @param  Int $homebudgetId 家計id
+     * @return Int               書類id
+     */
+    private function getDocumentId($homebudgetId)
+    {
+        $ret = $this->tDocumentSavesRepository->getCurrentMaxDocumentId($homebudgetId);
+        if(isset($ret) && is_int($ret)) {
+            $num = ++$ret;
+        } else {
+            $num = str_replace('/[^0-9]/', '', getCurrentDate()). sprintf('%03', 1);
+        }
+        return intval($num);
     }
 }

@@ -49,4 +49,5 @@ class DocumentController extends BaseController
         $data = $this->documentService->edit($request);
         return $data;
     }
+
 }

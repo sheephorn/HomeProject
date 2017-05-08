@@ -23,7 +23,7 @@ class TDocumentSaves extends Migration
             $table->date('save_limit');
             $table->timestamps();
             $table->softDeletes();
-            $table->primary('document_id');
+            $table->primary(['document_id', 'homebudget_id']);
         });
     }
 

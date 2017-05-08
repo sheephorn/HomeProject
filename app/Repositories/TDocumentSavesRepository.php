@@ -72,6 +72,24 @@ class TDocumentSavesRepository extends BaseRepository
                     $tempQuery->where('documents.homebudget_id', $condition[$target]);
                 }
             })
+            ->where(function($tempQuery) use ($condition){
+                $target = 'address';
+                if (isset($condition[$target]) && $condition[$target] !== '') {
+                    $tempQuery->where('places.address', $condition[$target]);
+                }
+            })
+            ->where(function($tempQuery) use ($condition){
+                $target = 'folderId';
+                if (isset($condition[$target]) && $condition[$target] !== '') {
+                    $tempQuery->where('places.folder_id', $condition[$target]);
+                }
+            })
+            ->where(function($tempQuery) use ($condition){
+                $target = 'folderName';
+                if (isset($condition[$target]) && $condition[$target] !== '') {
+                    $tempQuery->where('places.folder_name', $condition[$target]);
+                }
+            })
             ;
         return $query;
     }
@@ -83,6 +101,20 @@ class TDocumentSavesRepository extends BaseRepository
         ];
         $query = $this->orderBy($query, $condition, $sortArray);
         return $query;
+    }
+
+    /**
+     * 既存の最新書類idを取得する
+     * @param  Int $homebudgetId Int
+     * @return Int               [description]
+     */
+    public function getCurrentMaxDocumentId($homebudgetId)
+    {
+        $number = $this->model
+            ->where('homebudget_id', $homebudgetId)
+            ->where('created_at', getCurrentDate())
+            ->max(\DB::raw('CAST(document_id as UNSIGNED )'));
+        return $number;
     }
 
 }

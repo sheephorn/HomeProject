@@ -16,7 +16,13 @@ return [
      * システム全体の現在時刻管理
      *
      */
-    'date_format' => 'Y/m/d H:i:s',
+    'accessTimeFormat' => 'Y/m/d H:i:s',
+    'standardDateFormat' => 'Y-m-d',
+    'expentDateFormats' => [
+        'Y-m-d',
+        'Ymd',
+        'Y/m/d',
+    ],
 
     /**
      * リスト表示関連　１ページあたりの標準表示件数

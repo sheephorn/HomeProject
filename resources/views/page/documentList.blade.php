@@ -66,17 +66,42 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-1">
-                            {!! Form::text('', '', ['class' => 'form-control', 'v-bind' => '{disabled : disabled_limit_days}', 'v-bind:class' => '{disabled : disabled_limit_days}', 'v-model' => 'limitDays']) !!}
+                            {!! Form::text('', '', [
+                            'class' => 'form-control',
+                            'v-bind' => '{disabled : disabled_limit_days}',
+                            'v-bind:class' => '{disabled : disabled_limit_days}',
+                            'v-model' => 'limitDays']) !!}
                         </div>
                         <div class="col-xs-3">
-                            {!! Form::select('', ['years' => '年', 'months' => 'ヶ月', 'days' => '日'], '', ['class' => 'form-control', 'v-bind:class' => '{disabled : disabled_limit_days}', 'v-bind' => '{disabled : disabled_limit_days}', 'style' => 'padding:0px', 'v-model' => 'limitDaysUnit']) !!}
+                            {!! Form::select('', ['years' => '年', 'months' => 'ヶ月', 'days' => '日'], '', [
+                            'class' => 'form-control',
+                            'v-bind:class' => '{disabled : disabled_limit_days}',
+                            'v-bind' => '{disabled : disabled_limit_days}',
+                            'style' => 'padding:0px',
+                            'v-model' => 'limitDaysUnit']) !!}
                         </div>
                     </div>
                     <div class="radio-inline">
                         {!! Form::radio('limit', 'date', false, ['v-model' => 'limit_target']) !!}
                         <span>日付指定</span>
-                        {!! Form::text('', '', ['class' => 'datepicker', 'readonly' => 'readonly', 'v-bind' => '{disabled : disabled_limit_date}', ':class' => 'disabled_limit_date', 'v-model' => 'limitDate', 'id' => 'limit-date']) !!}
+                        {!! Form::text('', '', [
+                        'class' => 'datepicker',
+                        'readonly' => 'readonly',
+                        'v-bind' => '{disabled : disabled_limit_date}',
+                        ':class' => 'disabled_limit_date',
+                        'v-model' => 'limitDate',
+                        'id' => 'limit-date']) !!}
                     </div>
+                </div>
+                <div class="form-group">
+                    <label>保管先</label>
+                    <select class="form-control" v-model="folderId"><option value="aa">new</option></select>
+                    {!! Form::text('', '', [
+                    'placeholder' => '保管先名',
+                    'v-model' => 'folderName',
+                    'class' => 'form-control',
+                    ':class' => '{disabled : disabled_save_folderName}',
+                    'v-bind' => '{disabled : disabled_save_folderName}']) !!}
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-primary" @click="add('{{ route('ADD_DOCUMENT') }}')">登録</button>

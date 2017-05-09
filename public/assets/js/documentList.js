@@ -135,6 +135,9 @@ let add = new Vue({
                 date = this.limitDate
             }
             return date;
+        },
+        disabled_save_folderName: function() {
+            return (this.folderId === '') ? false : true;
         }
     },
     watch: {

@@ -216,7 +216,7 @@ let add = new Vue({
     },
     methods: {
         add: function(action) {
-            if (addValidate) {
+            if (this.addValidate) {
                 createLoadingGif(event.target);
                 execAjax(action, this.formObj, getAddDocumentCallbak(), getFailCallback());
             }

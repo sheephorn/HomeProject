@@ -60,3 +60,13 @@ function createErrorLog($e, $condition)
     \Log::error($condition->all());
 	return true;
 }
+
+/**
+ * ユーザーセッション情報を取得する
+ * @param  Object $request Request
+ * @return Array          ユーザーセッション情報
+ */
+function getUserSession($request)
+{
+    return $request->session()->get('user');
+}

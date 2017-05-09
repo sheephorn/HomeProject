@@ -46,12 +46,25 @@
                     {!! Form::text('', '', ['placeholder' => '書類名', 'class' => 'form-control', 'v-model' => 'title']) !!}
                 </div>
                 <div class="form-group">
+                    <label>説明</label>
+                    {!! Form::textarea('', '', [
+                    'class' => 'form-control',
+                    'v-model' => 'description',
+                    'rows' => '5',
+                    ]) !!}
+                </div>
+                <div class="form-group">
                     <label>家計</label>
-                    <select class="form-control" v-model="homebudgetId"><option value="aaa">NEW</option></select>
+                    {!! Form::select('', isset($data['select']['homebudget']) ? $data['select']['homebudget'] : [], '', [
+                    'class' => 'form-control',
+                    'v-model' => 'homebudgetId']) !!}
                 </div>
                 <div class="form-group">
                     <label>重要度</label>
-                    <select class="form-control" v-model="important"><option value="aaa">NEW</option></select>
+                    {!! Form::select('', isset($data['select']['important']) ? $data['select']['important'] : [], '', [
+                    'class' => 'form-control',
+                    'v-model' => 'important'
+                    ]) !!}
                 </div>
                 <div class="form-group">
                     <p class="control-label"><b>保管期限</b></p>
@@ -94,7 +107,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>保管先</label>
+                    <label>保管先フォルダ</label>
                     <select class="form-control" v-model="folderId"><option value="aa">new</option></select>
                     {!! Form::text('', '', [
                     'placeholder' => '保管先名',
@@ -102,6 +115,13 @@
                     'class' => 'form-control',
                     ':class' => '{disabled : disabled_save_folderName}',
                     'v-bind' => '{disabled : disabled_save_folderName}']) !!}
+                </div>
+                <div class="form-group">
+                    <label>保管先</label>
+                    {!! Form::text('', '', [
+                    'placeholder' => '保管先の区別を入力してください',
+                    'class' => 'form-control',
+                    'v-model' => 'address']) !!}
                 </div>
                 <div class="form-group">
                     <label>タグ</label>

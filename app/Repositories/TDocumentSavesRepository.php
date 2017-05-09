@@ -19,6 +19,7 @@ class TDocumentSavesRepository extends BaseRepository
         $query = $this->getSelectQuery($condition, $query);
         $query = $this->getWhereQuery($condition, $query);
         $query = $this->orderByQuery($condition, $query);
+        // \Log::debug($query->toSql());
         return $query;
     }
 
@@ -41,6 +42,7 @@ class TDocumentSavesRepository extends BaseRepository
             'documents.title',
             'documents.important',
             'documents.save_limit',
+            'documents.description',
             \DB::raw('GROUP_CONCAT(tags.tag_name) as tags '),
             'places.folder_id',
             'places.folder_name',

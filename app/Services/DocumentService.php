@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\TDocumentPlacesRepository;
 use App\Repositories\TDocumentSavesRepository;
 use App\Repositories\TDocumentTagsRepository;
+use App\Repositories\THhomebudgetConnectsRepository;
 use Illuminate\Http\Request;
 
 class DocumentService extends BaseService
@@ -12,16 +13,19 @@ class DocumentService extends BaseService
     protected $tDocumentPlacesRepository;
     protected $tDocumentSavesRepository;
     protected $tDocumentTagsRepository;
+    protected $tHhomebudgetConnectsRepository;
 
     public function __construct(
         TDocumentPlacesRepository $tDocumentPlacesRepository,
         TDocumentSavesRepository $tDocumentSavesRepository,
-        TDocumentTagsRepository $tDocumentTagsRepository
+        TDocumentTagsRepository $tDocumentTagsRepository,
+        THhomebudgetConnectsRepository $tHhomebudgetConnectsRepository
         )
     {
         $this->tDocumentPlacesRepository = $tDocumentPlacesRepository;
         $this->tDocumentSavesRepository = $tDocumentSavesRepository;
         $this->tDocumentTagsRepository = $tDocumentTagsRepository;
+        $this->tHhomebudgetConnectsRepository = $tHhomebudgetConnectsRepository;
     }
 
     /**
@@ -31,7 +35,11 @@ class DocumentService extends BaseService
      */
     public function getList($condition)
     {
-
+        $data['select'] = [
+            'homebudget' => $this->tHhomebudgetConnectsRepository->getHomebudgetList(getUserSession($condition)['member_id']),
+            'important' => ['1' => '高', '2' => '中', '3' => '低'],
+            'folders' => $this->tDocumentPlacesRepository->getDocumentPlaceList(getUserSession($condition)['member_id']),
+        ];
         $data['code'] = app('CodeCreater')->getResponseCode('ok');
         $data['message'] = '';
         $data['accessTime'] = getAccessTime();
@@ -60,7 +68,7 @@ class DocumentService extends BaseService
      */
     private function pageInit($condition)
     {
-        $condition['memberId'] = $condition->session()->get('member_id');
+        $condition['memberId'] = getUserSession($condition)['member_id'];
         $condition['show'] = isset($condition['show']) ? $condition['show'] : config('const.showListRecordsNumber');
         $condition['page'] = isset($condition['page']) ? $condition['page'] : config('const.startPage');
         /**

@@ -6,7 +6,7 @@ let getSetDocumentListCallback = function(ele) {
         createLog(data);
         if (data !== undefined　&& data.code !== undefined) {
             if (data.code === RESPONSE.OK) {
-                list.list = data.data;
+                list.lists = data.data;
             } else if (data.code === RESPONSE.NG) {
                 list.message = data.message;
             }

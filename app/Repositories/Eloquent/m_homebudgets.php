@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class m_homebudgets extends Model
 {
     protected $table = 'm_homebudgets';
-    protected $primaryKey = 'homebudgets_id';
+    protected $primaryKey = 'homebudget_id';
     public $timestamps = true;
-    protected $guarded = ['homebudgets_id'];
+    protected $guarded = ['homebudget_id'];
 }

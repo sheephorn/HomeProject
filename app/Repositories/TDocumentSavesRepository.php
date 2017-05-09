@@ -121,4 +121,17 @@ class TDocumentSavesRepository extends BaseRepository
         return $number;
     }
 
+    /**
+     * 書類の削除
+     * @param  Int $documentId 書類id
+     * @return ?             ?
+     */
+    public function deleteDocument($documentId)
+    {
+        $ret = $this->model
+            ->where('document_id', $documentId)
+            ->delete();
+        return $ret;
+    }
+
 }

@@ -50,4 +50,10 @@ class DocumentController extends BaseController
         return $data;
     }
 
+    public function delete(Request $request)
+    {
+        $data = $this->documentService->delete($request);
+        return $data;
+    }
+
 }

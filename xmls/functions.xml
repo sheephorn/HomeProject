@@ -103,4 +103,12 @@
     <controllerMethod>add</controllerMethod>
     <middleware>login</middleware>
   </function>
+  <function id="DELETE_DOCUMENT">
+    <comment>書類の削除</comment>
+    <controller>DocumentController</controller>
+    <method>post</method>
+    <path>document/delete</path>
+    <controllerMethod>delete</controllerMethod>
+    <middleware>login</middleware>
+  </function>
 </content>

@@ -228,4 +228,34 @@ class DocumentService extends BaseService
         $num = $this->tDocumentPlacesRepository->getCurrentMaxFolderId() + 1;
         return $num;
     }
+
+    /**
+     * 書類の削除
+     * @param  Object $condition Request
+     * @return Array            結果コードを含む配列
+     */
+    public function delete($condition)
+    {
+        try {
+            $ret = \DB::transaction(function() use ($condition){
+                $document = $this->tDocumentSavesRepository->deleteDocument($condition['documentId']);
+                $place = $this->tDocumentPlacesRepository->deletePlace($condition['documentId']);
+                $tag = $this->tDocumentTagsRepository->deleteTag($condition['documentId']);
+                return [
+                    'code' => app('CodeCreater')->getResponseCode('ok'),
+                    'message' => app('MessageCreater')->getAddDocumentMessage('success'),
+                    'action' => route('GET_DOCUMENT_LISTPAGE'),
+                ];
+            });
+        } catch(\Exception $e) {
+            createErrorLog($e, $condition);
+            $ret = [
+                'code' => app('CodeCreater')->getResponseCode('ng'),
+                'message' => app('MessageCreater')->getCommonErrorMessage(),
+            ];
+        }
+        $ret['accessTime'] = getAccessTime();
+        return $ret;
+    }
+
 }

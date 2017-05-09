@@ -13,4 +13,17 @@ class TDocumentTagsRepository extends BaseRepository
         $this->model = $t_document_tags;
     }
 
+    /**
+     * タグの削除
+     * @param  Int $documentId 書類id
+     * @return ?             ?
+     */
+    public function deleteTag($documentId)
+    {
+        $ret = $this->model
+            ->where('document_id', $documentId)
+            ->delete();
+        return $ret;
+    }
+
 }

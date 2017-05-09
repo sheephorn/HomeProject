@@ -43,4 +43,17 @@ class TDocumentPlacesRepository extends BaseRepository
         return $ret;
     }
 
+    /**
+     * 保管場所の削除
+     * @param  Int $documentId 書類id
+     * @return ?             ?
+     */
+    public function deletePlace($documentId)
+    {
+        $ret = $this->model
+            ->where('document_id', $documentId)
+            ->delete();
+        return $ret;
+    }
+
 }

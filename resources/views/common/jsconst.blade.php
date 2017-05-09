@@ -8,4 +8,6 @@
         OK: '{{ app('CodeCreater')->getResponseCode('ok') }}',
         NG: '{{ app('CodeCreater')->getResponseCode('ng') }}'
     };
+    {{-- 日付のフォーマット　サーバのロジックと整合性を取っている --}}
+    const STANDARD_DATE_FORMAT = 'YYYY-MM-DD';
 </script>

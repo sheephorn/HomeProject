@@ -105,3 +105,16 @@ let removeLoadingGif = function()
         $(target).prop("disabled", false).removeClass("limited-disabled disabled");
     });
 }
+
+/**
+ * Datepickerのデフォルト設定を取得する
+ */
+let getDatepikerDefaultSettings = function() {
+    return {
+        format: STANDARD_DATE_FORMAT.toLowerCase(),
+        startView: 1,
+        maxViewMode: 2,
+        todayBtn: true,
+        language: "ja"
+    }
+};

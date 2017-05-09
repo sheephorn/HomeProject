@@ -70,6 +70,14 @@ let list = new Vue({
 let add = new Vue({
     el: '#add',
     data: {
+        // const
+        constLimitDate: 'date',
+        constLimitDays: 'days',
+        constLimitInfinite: 'infinite',
+        constLimitDaysUnitDay: 'days',
+        constLimitDaysUnitMonth: 'months',
+        constLimitDaysUnitYear: 'years',
+        // subject
         toggleTarget: toggleTarget,
         message: '',
         dom: $('#add'),
@@ -82,12 +90,13 @@ let add = new Vue({
         important: '',
         description: '',
         tags: '',
-        limitDate: '',
         // attr
-        //
+        limitDate: '',
+        limitDays: '',
+        limitDaysUnit: '',
         // flag
         check_limit_days: false,
-        limit_target: '',
+        limit_target: 'infinite', //初期値は無期限でセット
     },
     computed: {
         showadd: function() {
@@ -103,11 +112,28 @@ let add = new Vue({
                 important: this.important,
                 description: this.description,
                 tags: this.tags,
-                limitDate: this.limitDate,
+                limitDate: this.conbertedLimitDate,
             };
         },
-        disabled_limit_ammount: function() {
-            return this.limit_target === 'date' ? false : true;
+        disabled_limit_days: function() {
+            return this.limit_target === this.constLimitDays ? false : true;
+        },
+        disabled_limit_infinite: function() {
+            return this.limit_target === this.constLimitInfinite ? false : true;
+        },
+        disabled_limit_date: function() {
+            return this.limit_target === this.constLimitDate ? false : true;
+        },
+        conbertedLimitDate: function() {
+            let date;
+            if (this.limit_target === this.constLimitDays) {
+                date = moment().add(this.limitDays, this.limitDaysUnit).format(STANDARD_DATE_FORMAT);
+            } else if (this.limit_target === this.constLimitInfinite) {
+                date = '';
+            } else if (this.limit_target === this.constLimitDate) {
+                date = this.limitDate
+            }
+            return date;
         }
     },
     methods: {
@@ -118,6 +144,11 @@ let add = new Vue({
         toggleFlag: function(attr) {
             this[attr] = !this[attr];
         }
+    },
+    mounted() {
+        $("#limit-date").datepicker(getDatepikerDefaultSettings()).on(
+            "changeDate", () => {this.limitDate = $('#limit-date').val()}
+        );
     }
 })
 

@@ -118,3 +118,11 @@ let getDatepikerDefaultSettings = function() {
         language: "ja"
     }
 };
+
+/**
+* 数値以外の文字列を取り除き返す
+* @return String 
+ */
+let removeString = val => {
+    return String(val).replace(/[^0-9]/g, '');
+}

@@ -77,6 +77,7 @@ let add = new Vue({
         constLimitDaysUnitDay: 'days',
         constLimitDaysUnitMonth: 'months',
         constLimitDaysUnitYear: 'years',
+        maxDays: 3, // 指定日数の最大桁数
         // subject
         toggleTarget: toggleTarget,
         message: '',
@@ -96,7 +97,7 @@ let add = new Vue({
         limitDaysUnit: '',
         // flag
         check_limit_days: false,
-        limit_target: 'infinite', //初期値は無期限でセット
+        limit_target: '', //初期値は無期限でセット
     },
     computed: {
         showadd: function() {
@@ -136,6 +137,11 @@ let add = new Vue({
             return date;
         }
     },
+    watch: {
+        limitDays: function(val) {
+            this.limitDays = removeString(val).slice(0, this.maxDays);
+        }
+    },
     methods: {
         add: function(action) {
             createLoadingGif(event.target);
@@ -145,10 +151,16 @@ let add = new Vue({
             this[attr] = !this[attr];
         }
     },
-    mounted() {
+    mounted: function() {
         $("#limit-date").datepicker(getDatepikerDefaultSettings()).on(
             "changeDate", () => {this.limitDate = $('#limit-date').val()}
         );
+        /**
+         * 初期設定
+         */
+        // 保管期限のデフォルトは無期限
+        this.limit_target = this.constLimitInfinite;
+        this.limitDaysUnit = this.constLimitDaysUnitYear;
     }
 })
 

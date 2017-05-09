@@ -15,13 +15,13 @@ class TDocumentPlaces extends Migration
     {
         Schema::dropIfExists('t_document_places');
         Schema::create('t_document_places', function (Blueprint $table) {
+            $table->increments('place_id');
             $table->integer('folder_id')->unsigned();
             $table->string('folder_name');
             $table->string('address');
             $table->integer('document_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->primary(['folder_id', 'address']);
         });
     }
 

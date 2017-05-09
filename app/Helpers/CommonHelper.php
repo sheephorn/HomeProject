@@ -38,11 +38,12 @@ function getStandardDateFormat($date)
         }
     }
     if($ret) {
-        $ret->format(config('const.standardDateFormat'));
+        $ret = $ret->format(config('const.standardDateFormat'));
     } else {
         \Log::error($date);
         throw new \Exception(app('MessageCreater')->getFailMessage('dateformat'));
     }
+    return $ret;
 }
 
 /**

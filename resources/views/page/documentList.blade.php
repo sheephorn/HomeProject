@@ -108,7 +108,7 @@
                 </div>
                 <div class="form-group">
                     <label>保管先フォルダ</label>
-                    <select class="form-control" v-model="folderId"><option value="aa">new</option></select>
+                    <folder-select data="{{ isset($data['select']['folders']) ?  json_encode($data['select']['folders']): '' }}" :homebudgetid="homebudgetId"></folder-select>
                     {!! Form::text('', '', [
                     'placeholder' => '保管先名',
                     'v-model' => 'folderName',

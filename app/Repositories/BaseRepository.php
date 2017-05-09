@@ -23,6 +23,13 @@ class BaseRepository
 		return $instance;
 	}
 
+    public function insert($params)
+    {
+        $model = $this->model;
+        $model->create($params);
+        return $model;
+    }
+
     /**
      * 並び替えクエリの発行関数
      * @param  Object $query     クエリ

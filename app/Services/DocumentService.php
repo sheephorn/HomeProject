@@ -147,15 +147,13 @@ class DocumentService extends BaseService
      */
     private function addDocument($condition)
     {
-        $documentId = $this->getNewDocumentId(intval($condition['homebudgetId']));
-        $attr = ['document_id' => $documentId];
+        $attr = ['document_id' => 0];
         $contents = [
-            'document_id' => $documentId,
             'homebudget_id' => $condition['homebudgetId'],
             'title' => $condition['title'],
             'important' => $condition['important'],
             'description' => $condition['description'],
-            'save_limit' => getStandardDateFormat($condition['limitDate']),
+            'save_limit' => ($condition['limitDate'] !== '') ? getStandardDateFormat($condition['limitDate']) : '',
         ];
         $ret = $this->tDocumentSavesRepository->save($attr, $contents);
         return $ret;
@@ -168,17 +166,15 @@ class DocumentService extends BaseService
      */
     private function addPlace($condition, $document)
     {
-        $attr = [
-            'folder_id' => $condition['folderId'],
-            'address' => $condition['address'],
-        ];
+        $folderId = ($condition['folderId'] !== '') ? $condition['folderId'] : $this->getNewFolderId();
         $contents = [
-            'folder_id' => ($condition['folderId'] !== '') ? $condition['folderId'] : $this->getNewFolderId(),
+            'folder_id' => $folderId,
             'folder_name' => $condition['folderName'],
             'address' => $condition['address'],
             'document_id' => $document->document_id,
         ];
-        $ret = $this->tDocumentPlacesRepository->save($attr, $contents);
+        $ret = $this->tDocumentPlacesRepository->insert($contents);
+
         return $ret;
     }
 
@@ -194,13 +190,13 @@ class DocumentService extends BaseService
         $replaceTargets = [
             '　', // 全角空白
         ];
-        $tags = implode($separator, preg_replace($replaceTargets, $separator, $condition['tags']));
+        $tags = explode($separator, str_replace($replaceTargets, $separator, $condition['tags']));
         foreach ($tags as $tag) {
             $contents = [
                 'document_id' => $document->document_id,
-                'tag_name' => '',
+                'tag_name' => $tag,
             ];
-            $ret[] = $this->tDocumentTagsRepository->save($contents, $contents);
+            $ret[] = $this->tDocumentTagsRepository->insert($contents);
         }
         return $ret;
     }
@@ -216,9 +212,9 @@ class DocumentService extends BaseService
         if(isset($ret) && is_int($ret)) {
             $num = ++$ret;
         } else {
-            $num = str_replace('/[^0-9]/', '', getCurrentDate()). sprintf('%03', 1);
+            $num = preg_replace('/[^0-9]/', '', getCurrentDate()). sprintf('%03d', 1);
         }
-        return intval($num);
+        return $num;
     }
 
     /**
@@ -227,7 +223,7 @@ class DocumentService extends BaseService
      */
     private function getNewFolderId()
     {
-        $num = $this->tDocumentPlacesRepository->getCurrentMaxFolderId();
-        return ++$num;
+        $num = $this->tDocumentPlacesRepository->getCurrentMaxFolderId() + 1;
+        return $num;
     }
 }

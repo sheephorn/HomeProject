@@ -18,7 +18,7 @@ return [
      */
     'accessTimeFormat' => 'Y/m/d H:i:s',
     'standardDateFormat' => 'Y-m-d',
-    'expentDateFormats' => [
+    'expectDateFormats' => [
         'Y-m-d',
         'Ymd',
         'Y/m/d',

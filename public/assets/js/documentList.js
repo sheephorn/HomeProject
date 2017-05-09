@@ -67,6 +67,42 @@ let list = new Vue({
     }
 });
 
+Vue.component('folder-select', {
+    template: '\
+        <select class="form-control" v-model="folderId">\
+        <option value="">New</option>\
+        <option v-for="option in options" :value="option.folder_id">{{ option.folder_name }}</option>\
+        </select>\
+    ',
+    data: function() {
+        return {
+            folderId: '',
+        }
+    },
+    props: ['data', 'homebudgetid'],
+    computed: {
+        options: function() {
+            let options = $.parseJSON(this.data).filter(function(content, idx, origin){
+                let ret;
+                if (String(content.homebudget_id) !== String(this.homebudgetid)) {
+                    ret = true;
+                } else {
+                    ret = false;
+                }
+                return ret;
+            });
+            return options;
+        }
+    },
+    watch: {
+        folderId: function(val) {
+            add.folderId = val;
+        }
+    }
+
+
+})
+
 let add = new Vue({
     el: '#add',
     data: {
@@ -168,6 +204,9 @@ let add = new Vue({
         // 保管期限のデフォルトは無期限
         this.limit_target = this.constLimitInfinite;
         this.limitDaysUnit = this.constLimitDaysUnitYear;
+    },
+    components: {
+
     }
 })
 

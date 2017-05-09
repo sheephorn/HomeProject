@@ -15,6 +15,7 @@ class TDocumentTags extends Migration
     {
         Schema::dropIfExists('t_document_tags');
         Schema::create('t_document_tags', function (Blueprint $table) {
+            $table->increments('tag_id');
             $table->integer('document_id')->unsigned();
             $table->string('tag_name');
         });

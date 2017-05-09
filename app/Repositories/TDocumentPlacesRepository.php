@@ -19,7 +19,10 @@ class TDocumentPlacesRepository extends BaseRepository
      */
     public function getCurrentMaxFolderId()
     {
-        return $this->model->max('folder_id');
+        $ret = $this->model->max('folder_id');
+        \Log::debug('max folderID');
+        \Log::debug($ret);
+        return $ret;
     }
 
     public function getDocumentPlaceList($memberId)
@@ -34,9 +37,9 @@ class TDocumentPlacesRepository extends BaseRepository
             )
         ->where('conects.member_id', $memberId)
         ->distinct()
+        ->orderBy('places.created_at', 'desc')
         ->get()
         ;
-        \Log::debug($ret);
         return $ret;
     }
 

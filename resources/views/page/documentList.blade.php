@@ -20,14 +20,14 @@
             <div class="container">
                 <table class="table">
                     <thead>
-                        <th>ID<br>タイトル</th>
-                        <th>保管先</th>
+                        <th>家計名<br>タイトル</th>
+                        <th>フォルダ<br>保管先</th>
                         <th>説明</th>
                     </thead>
                     <tbody>
                         <tr v-for="(list, index) in lists" v-cloak>
-                            <td>@{{ list.document_id }}<br>@{{ list.title }}</td>
-                            <td>@{{ list.address }}</td>
+                            <td>@{{ list.homebudget_name }}<br>@{{ list.title }}</td>
+                            <td>@{{ list.folder_name }}<br>@{{ list.address }}</td>
                             <td>@{{ list.description }}</td>
                         </tr>
                     </tbody>
@@ -55,13 +55,13 @@
                 </div>
                 <div class="form-group">
                     <label>家計</label>
-                    {!! Form::select('', isset($data['select']['homebudget']) ? $data['select']['homebudget'] : [], '', [
+                    {!! Form::select('', $data['select']['homebudget'], '', [
                     'class' => 'form-control',
                     'v-model' => 'homebudgetId']) !!}
                 </div>
                 <div class="form-group">
                     <label>重要度</label>
-                    {!! Form::select('', isset($data['select']['important']) ? $data['select']['important'] : [], '', [
+                    {!! Form::select('', $data['select']['important'], '', [
                     'class' => 'form-control',
                     'v-model' => 'important'
                     ]) !!}
@@ -86,7 +86,7 @@
                             'v-model' => 'limitDays']) !!}
                         </div>
                         <div class="col-xs-3">
-                            {!! Form::select('', ['years' => '年', 'months' => 'ヶ月', 'days' => '日'], '', [
+                            {!! Form::select('', $data['select']['limits'], '', [
                             'class' => 'form-control',
                             'v-bind:class' => '{disabled : disabled_limit_days}',
                             'v-bind' => '{disabled : disabled_limit_days}',
@@ -131,7 +131,7 @@
                     'class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" @click="add('{{ route('ADD_DOCUMENT') }}')">登録</button>
+                    <button type="button" class="btn btn-primary" @click="add('{{ route('ADD_DOCUMENT') }}')" :class="{disabled : !addValidate}" v-bind="{disabled : !addValidate}">登録</button>
                 </div>
             </div>
         </div>

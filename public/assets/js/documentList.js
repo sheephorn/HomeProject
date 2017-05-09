@@ -25,9 +25,9 @@ let getAddDocumentCallbak = function(ele) {
         createLog(data);
         if (data !== undefined　&& data.code !== undefined) {
             if (data.code === RESPONSE.OK) {
-                //
+                location.href = data.action;
             } else if (data.code === RESPONSE.NG) {
-                //
+                add.message = data.message;
             }
         } else {
             createLog('NG');
@@ -174,6 +174,35 @@ let add = new Vue({
         },
         disabled_save_folderName: function() {
             return (this.folderId === '') ? false : true;
+        },
+        addValidate: function() {
+            let message = '';
+            let ret = true;
+            if (this.address === '') ret = false;
+            if (this.folderId === '' && this.folderName === '') ret = false;
+            if (this.homebudgetId === '') ret = false;
+            if (this.title === '') ret = false;
+            if (this.important === '') ret = false;
+            if (this.limit_target ===  this.constLimitDays && this.limitDays === '') ret = false;
+            if (this.limit_target ===  this.constLimitDate && this.limitDate === '') ret = false;
+            // 同じタグを設定していないか確認
+            let tags = {};
+            $.each(this.tags.split(' '), function(idx, val){
+                if (tags[val] === undefined) {
+                    tags[val] = val
+                } else {
+                    ret = false;
+                    message = '同じタグを設定しないでください';
+                    return false;
+                }
+            });
+            if (this.tags.match(/  /)) {
+                ret = false;
+                message = '空白を続けて入力しないでください';
+            }
+
+            this.message = message;
+            return ret;
         }
     },
     watch: {
@@ -187,8 +216,10 @@ let add = new Vue({
     },
     methods: {
         add: function(action) {
-            createLoadingGif(event.target);
-            execAjax(action, this.formObj, getAddDocumentCallbak(), getFailCallback());
+            if (addValidate) {
+                createLoadingGif(event.target);
+                execAjax(action, this.formObj, getAddDocumentCallbak(), getFailCallback());
+            }
         },
         toggleFlag: function(attr) {
             this[attr] = !this[attr];
@@ -204,9 +235,6 @@ let add = new Vue({
         // 保管期限のデフォルトは無期限
         this.limit_target = this.constLimitInfinite;
         this.limitDaysUnit = this.constLimitDaysUnitYear;
-    },
-    components: {
-
     }
 })
 
@@ -224,4 +252,4 @@ let buttons = new Vue({
     }
 });
 
-removeOneTimeHiddenClass();
+// removeOneTimeHiddenClass();

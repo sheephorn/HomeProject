@@ -29,6 +29,7 @@ class TDocumentSavesRepository extends BaseRepository
         ->leftjoin('t_document_places as places', 'documents.document_id', '=', 'places.document_id')
         ->leftjoin('t_document_tags as tags', 'documents.document_id', '=', 'tags.document_id')
         ->leftjoin('t_homebudget_connects as connects', 'documents.homebudget_id', '=', 'connects.homebudget_id')
+        ->leftjoin('m_homebudgets as homebudgets', 'documents.homebudget_id', '=', 'homebudgets.homebudget_id')
         ->leftjoin('m_members as members', 'connects.member_id', '=', 'members.member_id')
         ->groupBy('documents.document_id')
         ;
@@ -47,6 +48,7 @@ class TDocumentSavesRepository extends BaseRepository
             'places.folder_id',
             'places.folder_name',
             'places.address',
+            'homebudgets.name as homebudget_name',
         ];
         $query = $query->select($selectArray)->distinct();
         return $query;

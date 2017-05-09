@@ -47,4 +47,15 @@
       <value>すでに同名のグループが存在しています。</value>
     </already_exists>
   </add_placegroup>
+  <add_document>
+    <success>
+      <value>登録成功</value>
+    </success>
+    <folder_already_exists>
+      <value>すでに同名のフォルダーが存在しています</value>
+    </folder_already_exists>
+    <address_already_used>
+      <value>指定の保管場所はすでに使用されています</value>
+    </address_already_used>
+  </add_document>
 </content>

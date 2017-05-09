@@ -39,6 +39,7 @@ class DocumentService extends BaseService
             'homebudget' => $this->tHhomebudgetConnectsRepository->getHomebudgetList(getUserSession($condition)['member_id']),
             'important' => ['1' => '高', '2' => '中', '3' => '低'],
             'folders' => $this->tDocumentPlacesRepository->getDocumentPlaceList(getUserSession($condition)['member_id']),
+            'limits' => ['years' => '年', 'months' => 'ヶ月', 'days' => '日'],
         ];
         $data['code'] = app('CodeCreater')->getResponseCode('ok');
         $data['message'] = '';
@@ -93,7 +94,8 @@ class DocumentService extends BaseService
                     $resultTag = $this->addTag($condition, $resultDocument);
                     return [
                         'code' => app('CodeCreater')->getResponseCode('ok'),
-                        'message' => app('MessageCreater')->getAddHomebudgetMessage('success'),
+                        'message' => app('MessageCreater')->getAddDocumentMessage('success'),
+                        'action' => route('GET_DOCUMENT_LISTPAGE'),
                     ];
                 });
             } catch (\Exception $e) {
@@ -129,12 +131,12 @@ class DocumentService extends BaseService
         $can['ret'] = true;
         // 家計に同一フォルダがある場合
         if($condition['folderId'] === '' && isset($data)) {
-            $can['message'] = '';
+            $can['message'] = app('MessageCreater')->getAddDocumentMessage('folder_already_exists');
             $can['ret'] =false;
         }
         // 指定のアドレスがすでに使われている場合ＮＧ
         if(isset($data)) {
-            $can['message'] = '';
+            $can['message'] = app('MessageCreater')->getAddDocumentMessage('address_already_used');
             $can['ret'] =false;
         }
         return $can;

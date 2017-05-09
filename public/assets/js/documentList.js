@@ -143,6 +143,10 @@ let add = new Vue({
     watch: {
         limitDays: function(val) {
             this.limitDays = removeString(val).slice(0, this.maxDays);
+        },
+        tags: function(val) {
+            // 全角のスペースを半角のスペースに変換する
+            this.tags = String(val).replace('　', ' ');
         }
     },
     methods: {

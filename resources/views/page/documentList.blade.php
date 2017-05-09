@@ -104,6 +104,13 @@
                     'v-bind' => '{disabled : disabled_save_folderName}']) !!}
                 </div>
                 <div class="form-group">
+                    <label>タグ</label>
+                    {!! Form::text('', '', [
+                    'placeholder' => 'スペース区切りでタグを入力してください',
+                    'v-model' => 'tags',
+                    'class' => 'form-control']) !!}
+                </div>
+                <div class="form-group">
                     <button type="button" class="btn btn-primary" @click="add('{{ route('ADD_DOCUMENT') }}')">登録</button>
                 </div>
             </div>

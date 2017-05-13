@@ -94,6 +94,12 @@ class TDocumentSavesRepository extends BaseRepository
                     $tempQuery->where('places.folder_name', $condition[$target]);
                 }
             })
+            ->where(function($tempQuery) use ($condition){
+                $target = 'documentId';
+                if (isset($condition[$target]) && $condition[$target] !== '') {
+                    $tempQuery->where('documents.document_id', $condition[$target]);
+                }
+            })
             ;
         return $query;
     }

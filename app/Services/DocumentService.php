@@ -83,6 +83,12 @@ class DocumentService extends BaseService
         return $condition;
     }
 
+    /**
+     * 書類の追加
+     * 書類追加サービスの入り口関数
+     * @param Object $condition Request
+     * @return Array 結果コードを含む配列
+     */
     public function add($condition)
     {
         $can = $this->canAdd($condition);
@@ -143,7 +149,7 @@ class DocumentService extends BaseService
     }
 
     /**
-     * Documentの新規作成
+     * Documentテーブルレコードの新規作成
      * @param Object $condition Request
      * @return Object 作成レコード
      */
@@ -168,6 +174,7 @@ class DocumentService extends BaseService
      */
     private function addPlace($condition, $document)
     {
+      // 新規のフォルダが選ばれた場合、新たなフォルダーを作成する
         $folderId = ($condition['folderId'] !== '') ? $condition['folderId'] : $this->getNewFolderId();
         $contents = [
             'folder_id' => $folderId,
@@ -182,6 +189,7 @@ class DocumentService extends BaseService
 
     /**
      * タグの新規作成
+     * スペース区切りの文字列タグをすべてレコードとして保存する
      * @param Object $condition Request
      * @param Object $document  Documentの新規作成レコード
      */
@@ -201,6 +209,17 @@ class DocumentService extends BaseService
             $ret[] = $this->tDocumentTagsRepository->insert($contents);
         }
         return $ret;
+    }
+
+    /**
+     * 指定書類のタグをすべて削除する
+     * @param Int $documentId 書類ID
+     * @return
+     **/
+    private function deleteTag($documentId)
+    {
+      $ret = $this->tDocumentTagsRepository->deleteTag($documentId);
+      return $ret;
     }
 
     /**
@@ -256,6 +275,66 @@ class DocumentService extends BaseService
         }
         $ret['accessTime'] = getAccessTime();
         return $ret;
+    }
+
+    /**
+     * 書類の編集関数　入り口
+     * @param Object $condition Request
+     * @return Arrat 結果コードを含む配列
+     */
+    public function edit($condition)
+    {
+      try {
+        $ret = \DB::transaction(function() use ($condition){
+          $searchCondition = [
+            'documentId' => $condition['documentId'],
+          ];
+          $origin = $this->tDocumentSavesRepository->createQuery($condition)->first();
+          // tag系編集
+          $this->deleteTag($codition['documentId']);
+          $this->addTag($condition);
+          // Document系
+          $this->editDocument($condition);
+          // DocumentPlace系
+          // フォルダidもしくはaddressが既存データと異なっている場合のみ変更処理を行う
+          if ($origin['folder_id'] !== intval($condition['folderId'] || $origin['address'] !== $condition['address'])) {
+            $this->moveDocumentPlace($condition);
+          }
+
+          return [
+            'code' => app('CodeCreater')->getResponseCode('ok'),
+            'message' => '',
+          ];
+        });
+      } catch(\Exception $e) {
+        createErrorLog($e, $condition);
+        $ret = [
+            'code' => app('CodeCreater')->getResponseCode('ng'),
+            'message' => app('MessageCreater')->getCommonErrorMessage(),
+        ];
+      }
+      $ret['accessTime'] => getAccessTime();
+      return $ret;
+    }
+
+    /**
+     * 書類テーブルの編集
+     * @param Object $condition Request
+     * @return
+     */
+    private function editDocument($conditon)
+    {
+      return $ret;
+    }
+
+    /**
+     * 書類保管場所の変更処理を行う関数
+     * @param Object $condition Request
+     * @return
+     */
+    private function moveDocumentPlace($conditon)
+    {
+      return $ret;
     }
 
 }

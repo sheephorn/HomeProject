@@ -25,5 +25,4 @@ class TDocumentTagsRepository extends BaseRepository
             ->delete();
         return $ret;
     }
-
 }

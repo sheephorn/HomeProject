@@ -313,7 +313,7 @@ class DocumentService extends BaseService
             'message' => app('MessageCreater')->getCommonErrorMessage(),
         ];
       }
-      $ret['accessTime'] => getAccessTime();
+      $ret['accessTime'] = getAccessTime();
       return $ret;
     }
 
@@ -328,7 +328,7 @@ class DocumentService extends BaseService
     }
 
     /**
-     * 書類保管場所の変更処理を行う関数
+     * 書類保管場所の変更処理を行う関数＿
      * @param Object $condition Request
      * @return
      */
